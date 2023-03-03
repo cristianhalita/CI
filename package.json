@@ -1,0 +1,39 @@
+{
+  "name": "freelancer2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon -r dotenv/config server.js",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress-localstorage-commands": "^2.2.2",
+    "cypress-mailslurp": "^1.6.0",
+    "dotenv": "^16.0.3",
+    "mysql": "^2.18.1",
+    "nodemon": "^1.18.11"
+  },
+  "dependencies": {
+    "@socketlabs/email": "^1.0.3",
+    "argon2": "^0.28.7",
+    "bcrypt": "^3.0.6",
+    "better-sqlite3": "^7.6.2",
+    "bluebird": "^3.5.4",
+    "cypress": "^12.7.0",
+    "cypress-plugin-api": "^2.10.3",
+    "express": "^4.16.4",
+    "express-handlebars": "^3.0.2",
+    "express-mysql-session": "^2.1.8",
+    "express-session": "^1.17.3",
+    "jsonwebtoken": "^8.5.1",
+    "license-checker": "^25.0.1",
+    "multer": "^1.4.2",
+    "mysql2": "^2.3.0",
+    "nodemailer": "^6.1.1",
+    "validator": "^13.7.0"
+  }
+}

@@ -1,0 +1,161 @@
+<nav class="navbar navbar-expand-lg navbar-dark justify-content-between bg-primary">
+    <a class="navbar-brand" href="#">Datamundi Job Portal</a>
+
+    <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">My profile</a>
+            <div class="dropdown-menu">
+                {{#unless freelancer.lspId}}
+                    <a class="dropdown-item" href="/profile/personal">Personal</a>
+                    <a class="dropdown-item" href="/profile/professional">Professional</a>
+                    <a class="dropdown-item" href="/profile/payment">Payment</a>
+                {{/unless}}
+                <a class="dropdown-item" href="/profile/settings">Settings</a>
+                <a class="dropdown-item" href="/profile/nda">N.D.A.</a>
+
+                {{#unless freelancer.lspId}}
+                    <a class="dropdown-item" href="/profile/delete">Delete this account</a>
+                {{/unless}}
+                <a class="dropdown-item" href="/profile/datamundiStaffChat">Datamundi Staff Chat</a>
+                <a class="dropdown-item" href="/profile/help">Help</a>
+            </div>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">My jobs</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/jobs/available">Available</a>
+                <a class="dropdown-item" href="/jobs/inProgress">In progress</a>
+                <a class="dropdown-item" href="/jobs/delivered">Delivered</a>
+                <a class="dropdown-item active" href="/jobs/help">Help</a>
+            </div>
+        </li>
+
+        {{#unless freelancer.lspId}}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">My invoices</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/invoices/paid">Paid</a>
+                    <a class="dropdown-item" href="/invoices/notPaid">Not paid</a>
+                    <a href="/invoices/overview" class="dropdown-item ">Overview</a>
+                    <a class="dropdown-item" href="/invoices/help">Help</a>
+                </div>
+            </li>
+        {{/unless}}
+
+    </ul>
+
+    <div>
+        <div class="row">
+            <form class="form-inline my-2 my-lg-0 col" action="/profile" method="get">
+                <button  type="submit" class="btn btn-primary float-right">
+                    Notifications <span id="unRead" class="badge badge-light">{{unread}}</span>
+                </button>
+            </form>
+
+            <form class="form-inline my-2 my-lg-0" action="/logout" method="post">
+                <label style="margin-right: 1em">{{firstName}} {{lastName}}</label>
+                <div class="bg-light" style="padding: 0.25em; border-radius: 8px;">
+                    <button type="submit" class="form-control btn btn-outline-danger">Logout</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <h1>Help -- About work types and job value</h1>
+    <p>HELP! Do I need to read all this? Yes, that would be a smart thing to do. </p>
+    <p>
+        <a href="#metadata">Data and metadata</a> --
+        <a href="#jobval">Job value</a> --
+        <a href="#worktypes">Work types</a> --
+        <a href="#qc">Review and QC</a>
+    </p>
+
+
+    <h2 id="metadata">What data do you collect and what do you use it for?</h2>
+    <p>We create data that researchers can use. To enrich the customer data and the freelance evaluations, we also measure the time our freelancers spend on the job in detail. For some worktypes we also measure mouse miles and the corrections on given text and created text. This meta data is used: </p>
+    <ul>
+        <li>to compare the effort done by the evaluators;</li>
+        <li>to verify the predicted value of the job is fair;</li>
+        <li>to trigger quality control;</li>
+        <li>to evaluator how stable the evaluations are over time.</li>
+    </ul>
+
+
+    <h2 id="jobval">How do you calculate the value of a job?</h2>
+    <p>We want to pay correctly, so we measure how much time our team is spending on each evaluation, on each job; This helps us predict how long you will spend on a job, and how much we should pay you to give you a fair income. If we would see all freelancers on the same job spend more time than we estimated, we will raise the value of the job after delivery. This is also why it may be wise not to generate the invoice immediately. Once a job has been invoiced, we cannot raise its value anymore. We never lower the value after we publish a job, and we never raise the value of the job just for one person, always for the team that worked on the same batch.</p>
+    <p>We don't do word counts, unless they make sense, like on translation jobs. (We rarely have a regular translation job). We count what makes most sense: segments, contrasts, time, terms, ...</p>
+
+
+
+    <h2 id="worktypes">What are all these work types? </h2>
+    <h3>TSE: Translated Segment Evaluation</h3>
+    <p>This is a contrastive evaluation where at least 2 freelancers score the same dataset using a Likert scale; In one dataset there are up to 4 contrastive translations per source text. This job is used to measure the quality of competing engines, and to identify added profanity. The Likert scale has 3 scores for a bad translation and 3 scores for a good translation; All scores come with clear definitions that need to be followed strictly by the evaluators. </p>
+
+    <h3>CTE: Contrastive Translation Evaluation</h3>
+    <p>Evaluate and label the source term or idiom, plus label 2 or 3 contrastive translations.</p>
+
+    <h3>CDT: Collective Dictionary Translation</h3>
+    <p>Many freelancers work together on translating the same dictionary; There is some artificial overlap so we can see how much variation and disagreement there is.</p>
+
+    <h3>BTE: Binary Translation Evaluation</h3>
+    <p>Two or more freelancers score the same dataset using a binary scale; This job is used to measure the quality of competing engines (or human translations). The ultimate goal is to measure the evolution of engines over time, or to learn an NLP system to see the difference between good and poor translations.</p>
+
+    <h3>PDC: Parallel Data Collection</h3>
+    <p>One or more freelancers score the quality of parallel web pages, tag terms, flag profanities... PDC is a worktype that comes with many different tools and instructions.</p>
+
+    <h3>FQT: Failed Quality Tagging</h3>
+    <p>Evaluators analyze a translated sentence, identify and classify all errors in the translation, and markup the issues in source (missing tokens) or target (quality fails). Just knowing how a translation system performs (with TSE/BTE) does not give actionable information to the MT builders. With the FQT we can see how many errors there are, how they cluster, what types of errors they are. The FQT categories are not a traditional translation analysis but are workable categories for the MT builders.</p>
+
+    <h3>PCT: Profanity Creation &amp; Translation</h3>
+    <p>Two or more translators translate and transcreate a list of English profane terms. This is not a typical translation job as the output is not a bilingual list but a monolingual list that will be used to detect vulgar language in MT training data and in MT output.</p>
+
+    <h3>UPQ: URL Pair Qualification</h3>
+    <p>The evaluators will see 2 comparable pages in a web browser. They classify and qualify the pages.</p>
+
+    <h3>TPM: Token Pair Markup</h3>
+    <p>The evaluators will see 2 parallel pages in a web browser. They markup 5 perfect translations of 5 to 8 words in the source and the target panes.</p>
+
+    <h3>PIT: Profanity Identification Task</h3>
+    <p>The evaluators will browse through monolingual web pages, confirm the language, and then markup vulgar terms, blasphemy, slurs, ...</p>
+
+    <h3>LVI: Language Variant Identification</h3>
+    <p>The evaluators browse through a list sentences and flag them if the sentence can be used for training a language variant engine.</p>
+
+    <h3>BDC: Bilingual Dictionary Creation</h3>
+    <p>The evaluators will see a word with no context and need to translate it using what they believe is the most used translation for that word. Sounds easy, but it isn't.</p>
+
+    <h3>CPA: Collective Profanity Acquisition</h3>
+    <p>Submit vulgar, offensive, racist, sexist... language with a team of freelancers, inspired by a list of English profanity.</p>
+
+    <h3>HLI: Human Language Identification</h3>
+    <p>Label strings based on the language you recognize; the strings shown are all strings language identification tools cannot identify correctly.</p>
+
+    <h3>HAA: Human Alignment Annotation</h3>
+    <p>Linguists evaluate the validity of sentence alignments from automated alignment algorithms. The job is split in 2 steps: scoring target alignment (bag-of-words) and scoring translation quality (binary). Evaluators can review the assessment before submission and they can review all submission on a grid. Profane content can be reported as well.</p>
+
+    <h3>TQT: Translation Quality Tagging</h3>
+    <p>Quality tagging on human translations and machine translations based on the SAE J2450 quality matrix (automotive standard).</p>
+
+    <h3>AMR: Abstract Meaning Representation</h3>
+    <p>Abstract meaning representation involves rendering a sentence and its meaning in the form of a rooted, directed, acyclic graph. The graph is composed of concepts (events, entities) and the relations between these concepts. In more general terms, AMR captures the main event, who is doing what to whom, when, where, etc. Since the focus is on capturing the meaning, AMR strives for a logical, less syntactical representation.</p>
+
+    <h3>FLT: Freelance Linguistic Test</h3>
+    <p>A paid test used to verify instruct-ability, accuracy and fluency of our freelancers. The result of this is shared with the freelancer who took the test.</p>
+
+    <h3>QAJ: Quality Assurance Job</h3>
+    <p>Used to track the quality of deliveries over time. The result of this is shared with the freelancer if required.</p>
+
+    <h2 id="qc">Do you QC my job?</h2>
+    <p>Yes, and we use up to 4 techniques for this:</p>
+    <ul>
+        <li>We compare your evaluation with the <b>golden standard</b>; If you disagree too much, you will not get any new jobs.</li>
+        <li>We also <b>peer-compare</b> your work with the evaluations of other freelancers working on the same job. Unlike translations jobs that are always sent only to one person, we send our jobs to 2 or more people by default. </li>
+        <li>We monitor how much <b>time</b> you spend on reading instructions and on each evaluation; If your speed is too high or too low, compared to others working on the same batch in the same language, we ask a reviewer to check 10% of your work. You will get detailed feedback if there are com pliancy issues.</li>
+        <li>We and our customers, do a <b>statistical analysis</b> on your data; If our customers qualify you as an outlier, we will not remove you from our team, but we will no longer allow you to take the work type on which you are an outlier. </li>
+    </ul>
+    <p>Our QC team NEVER fixes your work. You get feedback from them, and you will be asked to review your own job. This may even happen after you have generated your invoice or after you have received the payment. We do insist you fix the issues before you take a new job.</p>
+    <p>Some of our tools allow you to review your own work. When a review button is present on the main job screen, it makes sense to check your own work before you deliver it. </p>
+</div>

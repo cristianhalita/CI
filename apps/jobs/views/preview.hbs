@@ -1,0 +1,22 @@
+
+<table class="table table-hover table-striped table-dark">
+    <caption>Preview of {{jobName}}</caption>
+    <thead class="thead-dark">
+    <tr>
+        {{#each headers as |header|}}
+            <th>{{header}}</th>
+        {{/each}}
+    </tr>
+    </thead>
+    <tbody>
+        {{#each rows as |row|}}
+        <tr>
+            {{#each row as |newRow|}}
+                <td dir="{{newRow.dir}}" lang="{{newRow.tag}}">{{newRow.value}}</td>
+            {{/each}}
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<script src="/js/instruction.js"></script>

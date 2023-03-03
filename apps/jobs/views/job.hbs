@@ -1,0 +1,191 @@
+<nav class="navbar navbar-expand-lg navbar-dark justify-content-between bg-primary">
+    <a class="navbar-brand" href="#">Datamundi Job Portal</a>
+
+    <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">My profile</a>
+            <div class="dropdown-menu">
+                {{#unless freelancer.lspId}}
+                    <a class="dropdown-item" href="/profile/personal">Personal</a>
+                    <a class="dropdown-item" href="/profile/professional">Professional</a>
+                    <a class="dropdown-item" href="/profile/payment">Payment</a>
+                {{/unless}}
+                <a class="dropdown-item" href="/profile/settings">Settings</a>
+                <a class="dropdown-item" href="/profile/nda">N.D.A.</a>
+                {{#unless freelancer.lspId}}
+                    <a class="dropdown-item" href="/profile/delete">Delete this account</a>
+                {{/unless}}
+                <a class="dropdown-item" href="/profile/datamundiStaffChat">Datamundi Staff Chat</a>
+                <a class="dropdown-item" href="/profile/help">Help</a>
+            </div>
+        </li>
+
+        <li class="nav-item dropdown active">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">My jobs</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/jobs/available">Available</a>
+                <a class="dropdown-item" href="/jobs/inProgress">In progress</a>
+                <a class="dropdown-item" href="/jobs/delivered">Delivered</a>
+
+                <a class="dropdown-item" href="/jobs/help">Help</a>
+            </div>
+        </li>
+
+        {{#unless freelancer.lspId}}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">My invoices</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/invoices/paid">Paid</a>
+                    <a class="dropdown-item" href="/invoices/notPaid">Not paid</a>
+                    <a href="/invoices/overview" class="dropdown-item ">Overview</a>
+                    <a class="dropdown-item" href="/invoices/help">Help</a>
+                </div>
+            </li>
+        {{/unless}}
+
+    </ul>
+
+    <div>
+        <div class="row">
+            <form class="form-inline my-2 my-lg-0 col" action="/profile" method="get">
+                <button  type="submit" class="btn btn-primary float-right">
+                    Notifications <span id="unRead" class="badge badge-light">{{unread}}</span>
+                </button>
+            </form>
+
+            <form class="form-inline my-2 my-lg-0" action="/logout" method="post">
+                <label style="margin-right: 1em">{{firstName}} {{lastName}}</label>
+                <div class="bg-light" style="padding: 0.25em; border-radius: 8px;">
+                    <button type="submit" class="form-control btn btn-outline-danger">Logout</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <h1 class="text-center">{{job.name}}</h1>
+
+      {{#each errors as |error|}}
+        <div class="alert alert-danger alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{error}}
+        </div>
+    {{/each}}
+
+    {{#each warnings as |warning|}}
+        <div class="alert alert-warning alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{warning}}
+        </div>
+    {{/each}}
+
+      {{#each successes as |success|}}
+        <div class="alert alert-success alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{success}}
+        </div>
+    {{/each}}
+
+    {{#unless taken}}
+        <div class="alert alert-info alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            Please click on Instructions and Preview if available in order for the TAKE button to become active.
+        </div>
+    {{/unless}}
+
+    <div class="row" style="margin-left: 1em;">
+        <div class="col border border-primary">
+            <h2>Information</h2>
+            <div class="form-group row">
+                <label for="Name" class="col-sm-3 col-form-label">Job code:</label>
+                <div class="col-sm-9">
+                    <input type="text" id="name" class="form-control" value="{{job.name}}" readonly>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="price" class="col-sm-3 col-form-label">Price:</label>
+                <div class="col-sm-9">
+                    <input type="text" id="price" class="form-control" value="{{#if job.collective}}To be calculated when the job is done, based on the number of units performed{{else}}{{job.price}}{{/if}}" readonly>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="languagePair" class="col-sm-3 col-form-label">Language pair:</label>
+                <div class="col-sm-9">
+                    <input type="text" id="languagePair" class="form-control" value="{{job.sourceLanguage}} --> {{job.targetLanguage}}" readonly>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="dueDate" class="col-sm-3 col-form-label">Due date:</label>
+                <div class="col-sm-9">
+                    <input type="text" id="dueDate" class="form-control" value="{{job.dueDate}} (CET)" readonly>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="workType" class="col-sm-3 col-form-label">Work type:</label>
+                <div class="col-sm-9">
+                    <input type="text" id="workType" class="form-control" value="{{job.workType}}" readonly>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="description" class="col-sm-3 col-form-label">Description:</label>
+                <div class="col-sm-9">
+                    <textarea id="description" name="description" placeholder="Description" class="form-control" readonly>{{job.description}}</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col border border-primary" style="margin-left: 1em;">
+            <h2>Instructions / screenshots</h2>
+            <h4>Instructions</h4>
+            <ul>
+                {{#each instructions}}
+                    <li><a class="instructions" href="/jobs/{{../job.id}}/instructions/{{this.workTypeInstructionId}}" instructionId="{{this.workTypeInstructionId}}" target="_blank">{{this.fileName}}</a></li>
+                {{/each}}
+            </ul>
+            {{#if screenshot}}
+                <h4>Screenshot</h4>
+                <ul>
+                    <li><a class="instructions" target="_blank" href="/jobs/{{job.id}}/screenshot">screenshot</a></li>
+                </ul>
+            {{/if}}
+            {{#if video}}
+                <h4>Video</h4>
+                <ul>
+                    <li><a class="instructions" target="_blank" href="/jobs/{{job.id}}/video">video</a></li>
+                </ul>
+            {{/if}}
+            {{#if preview}}
+                <h4>Preview</h4>
+                <ul>
+                    <li><a href="/jobs/{{job.id}}/preview" target="_blank" class="instructions">preview</a></li>
+                </ul>
+            {{/if}}
+        </div>
+    </div>
+
+    <form class="row" style="margin: 1em" action="/jobs/{{job.id}}/take" method="post">
+        {{#each instructions as |instruction|}}
+            <input type="text" id="instruction{{instruction.workTypeInstructionId}}" hidden name="instructions">
+        {{/each}}
+        {{#if screenshot}}
+            <input type="text" id="screenshot" hidden name="screenshot">
+        {{/if}}
+        {{#if video}}
+            <input type="text" id="video" hidden name="video">
+        {{/if}}
+        {{#if preview}}
+            <input type="text" id="preview" hidden name="preview">
+        {{/if}}
+
+        {{#ifEquals job.workType 'ARE'}}
+            <label for="areCheckbox"><input type="checkbox" id="areCheckbox" required /> The content of the ARE jobs is strictly confidential. By taking part in the ARE project, I agree not to disclose any content or information pertaining to these jobs</label>
+        {{/ifEquals}}
+        {{#unless isTaken}}
+            <button id="submitButton" type="submit" class="form-control btn btn-success" {{#if instructions}} disabled{{/if}}>Take</button>
+        {{/unless}}
+    </form>
+</div>
+
+{{#unless taken}}
+    <script src="/js/job.js"></script>
+{{/unless}}

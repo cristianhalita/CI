@@ -1,0 +1,233 @@
+<nav class="navbar navbar-expand-lg navbar-dark justify-content-between bg-primary">
+    <a class="navbar-brand" href="#">Datamundi Job Portal</a>
+
+    <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">My profile</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/profile/personal">Personal</a>
+                <a class="dropdown-item" href="/profile/professional">Professional</a>
+                <a class="dropdown-item" href="/profile/payment">Payment</a>
+                <a class="dropdown-item" href="/profile/settings">Settings</a>
+                <a class="dropdown-item" href="/profile/nda">N.D.A.</a>
+                <a class="dropdown-item" href="/profile/delete">Delete this account</a>
+                <a class="dropdown-item" href="/profile/datamundiStaffChat">Datamundi Staff Chat</a>
+                <a class="dropdown-item" href="/profile/help">Help</a>
+            </div>
+        </li>
+
+        <li class="nav-item dropdown active">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">My jobs</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/jobs/available">Available</a>
+                <a class="dropdown-item" href="/jobs/inProgress">In progress</a>
+                <a class="dropdown-item" href="/jobs/delivered">Delivered</a>
+
+                <a class="dropdown-item" href="/jobs/help">Help</a>
+            </div>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">My invoices</a>
+            <div class="dropdown-menu">
+                  <a class="dropdown-item" href="/invoices/paid">Paid</a>
+  <a class="dropdown-item" href="/invoices/notPaid">Not paid</a>
+   <a href="/invoices/overview" class="dropdown-item ">Overview</a>
+                <a class="dropdown-item" href="/invoices/help">Help</a>
+            </div>
+        </li>
+    </ul>
+
+    <div>
+        <div class="row">
+            <form class="form-inline my-2 my-lg-0 col" action="/profile" method="get">
+                <button  type="submit" class="btn btn-primary float-right">
+                    Notifications <span id="unRead" class="badge badge-light">{{unread}}</span>
+                </button>
+            </form>
+
+            <form class="form-inline my-2 my-lg-0" action="/logout" method="post">
+                <label style="margin-right: 1em">{{firstName}} {{lastName}}</label>
+                <div class="bg-light" style="padding: 0.25em; border-radius: 8px;">
+                    <button type="submit" class="form-control btn btn-outline-danger">Logout</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <h1>Generate an invoice or a note.</h1>
+      {{#each errors as |error|}}
+        <div class="alert alert-danger alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{error}}
+        </div>
+    {{/each}}
+
+    {{#each warnings as |warning|}}
+        <div class="alert alert-warning alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{warning}}
+        </div>
+    {{/each}}
+
+      {{#each successes as |success|}}
+        <div class="alert alert-success alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{success}}
+        </div>
+    {{/each}}
+
+
+    <form  action="/jobs/generateInvoice" method="post">
+        <div class="row">
+            <div class="form-group col row">
+                <label class="col-sm-2 col-form-label" for="type">Generate a </label>
+                <div class="col-sm-10">
+                    <select class="form-control" name="invoiceType" id="type" required>
+                        {{#each invoiceTypes as |invoiceType|}}
+                            {{#ifEquals invoiceType.name 'Invoice'}}
+                                {{#ifEquals ../paymentInfo.companyPersonal 'company'}}
+                                    <option value="{{invoiceType.id}}" selected>{{invoiceType.name}}</option>
+                                {{/ifEquals}}
+                            {{/ifEquals}}
+                            {{#ifEquals invoiceType.name 'Note'}}
+                                {{#ifEquals ../paymentInfo.companyPersonal 'personal'}}
+                                    <option value="{{invoiceType.id}}" selected>{{invoiceType.name}}</option>
+                                {{/ifEquals}}
+                            {{/ifEquals}}
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col row">
+                <label class="col-sm2 col-form-label" for="noteNumber">My note number:</label>
+                <div class="col-sm-10">
+                    <input type="text" id="noteNumber" name="noteNumber" required class="form-control">
+                </div>
+            </div>
+        </div>
+        <table class="table table-hover table-striped table-dark">
+            <caption>Jobs to invoice</caption>
+            <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>Language pair</th>
+                <th>Work type</th>
+                <th>Description</th>
+                <th>Delivery date</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each jobs as |job|}}
+                <tr>
+                    <td>{{job.name}}</td>
+                    <td>{{job.sourceLanguage}} --> {{job.targetLanguage}}</td>
+                    <td>{{job.workType}}</td>
+                    <td>{{job.description}}</td>
+                    <td>{{job.deliveryDate}}</td>
+                    <td>{{job.price}}</td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+
+        <p>Total value: <span id="totalValue">{{totalValue}}</span></p>
+        <div id="vatDiv" style="display: none;">
+            <div class="form-group form-inline">
+                <label for="vat">VAT (%):</label>
+                <input class="form-control" value="0" type="number" id="vat" placeholder="VAT" name="vat">
+            </div>
+            <p>Vat value: <span id="vatValue">0</span></p>
+        </div>
+        <div id="nonVatDiv">
+            <p>VAT not applicable</p>
+        </div>
+        <p>Total to be paid: <span id="totalToBePaid">{{totalValue}}</span></p>
+
+
+        <div class="row form-group">
+                <label  class="col-sm-2 col-form-label" for="paymentMethod">Payment method:</label>
+                <div class="col-sm-4">
+                    <select name="paymentMethod" id="paymentMethod" required class="form-control">
+                        <option value="">Select a payment method</option>
+                        {{#each paymentMethods as |paymentMethod|}}
+                            {{#ifEquals paymentMethod.name 'Paypal'}}
+                                {{#if ../paymentInfo.paypal}}
+                                    <option value="{{paymentMethod.id}}" {{#ifEquals paymentMethod.id ../paymentInfo.preferredPaymentMethod}}selected{{/ifEquals}}>{{paymentMethod.name}}</option>
+                                {{/if}}
+                            {{/ifEquals}}
+                            {{#ifEquals paymentMethod.name 'Bankwire (SEPA & SWIFT)'}}
+                                {{#if ../paymentInfo.swiftOrBic}}
+                                    <option value="{{paymentMethod.id}}" {{#ifEquals paymentMethod.id ../paymentInfo.preferredPaymentMethod}}selected{{/ifEquals}}>{{paymentMethod.name}}</option>
+                                {{/if}}
+                            {{/ifEquals}}
+                            {{#ifEquals paymentMethod.name 'WISE (previously known as TransferWise)'}}
+                                {{#if ../paymentInfo.transferWiseEmail}}
+                                    <option value="{{paymentMethod.id}}" {{#ifEquals paymentMethod.id ../paymentInfo.preferredPaymentMethod}}selected{{/ifEquals}}>{{paymentMethod.name}}</option>
+                                {{/if}}
+                            {{/ifEquals}}
+                            {{#ifEquals paymentMethod.name 'Xoom'}}
+                                {{#if ../paymentInfo.xoomCountry}}
+                                    <option value="{{paymentMethod.id}}" {{#ifEquals paymentMethod.id ../paymentInfo.preferredPaymentMethod}}selected{{/ifEquals}}>{{paymentMethod.name}}</option>
+                                {{/if}}
+                            {{/ifEquals}}
+                            {{#ifEquals paymentMethod.name 'Husky'}}
+                                {{#if ../paymentInfo.huskyCpfCnpj}}
+                                    <option value="{{paymentMethod.id}}" {{#ifEquals paymentMethod.id ../paymentInfo.preferredPaymentMethod}}selected{{/ifEquals}}>{{paymentMethod.name}}</option>
+                                {{/if}}
+                            {{/ifEquals}}
+                        {{/each}}
+                    </select>
+                </div>
+            <div style="display: none;" class="col-sm-6" id="paypalDiv" >
+                <input class="form-control" type="text" value="{{paymentInfo.paypal}}" readonly>
+            </div>
+            <div style="display: none;" class="col-sm-6" id="wireTransferDiv" >
+                <input class="form-control" type="text" value="{{paymentInfo.swiftOrBic}}" readonly>
+            </div>
+            <div style="display: none;" class="col-sm-6" id="transferWiseDiv" >
+                <input class="form-control" type="text" value="{{paymentInfo.transferWiseEmail}}" readonly>
+            </div>
+            <div style="display: none;" class="col-sm-6" id="xoomDiv" >
+                <div class="form-row">
+                    <div class="form-group col">
+                        <input type="text" id="xoomFullName" readonly class="form-control" value="{{paymentInfo.xoomFirstName}} {{paymentInfo.xoomLastName}}">
+                    </div>
+                    <div class="form-group col-7">
+                        <input type="text" id="xoomAddress" class="form-control" readonly value="{{paymentInfo.xoomCountryName}} {{paymentInfo.xoomState}}, {{paymentInfo.xoomZip}} {{paymentInfo.xoomCity}}, {{paymentInfo.xoomStreet}} {{paymentInfo.xoomHouse}}">
+                    </div>
+                    <div class="form-group col">
+                        <input class="form-control" type="text" name="xoomTelephone" id="xoomTelephone" value="{{paymentInfo.xoomTelephone}}" readonly>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="companyOrPersonal">This is a:</label>
+            <div class="col-sm-4">
+                <select name="companyOrPersonal" class="form-control" id="companyOrPersonal" required>
+                    {{#ifEquals 'company' paymentInfo.companyPersonal}}
+                        <option value="company" selected>Company account</option>
+                    {{/ifEquals}}
+                    {{#ifEquals 'personal' paymentInfo.companyPersonal}}
+                        <option value="personal" selected>Personal account</option>
+
+                    {{/ifEquals}}
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="instructions">Instructions:</label>
+            <textarea class="form-control" name="comment" id="instructions"></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Generate and send invoice now.</button>
+    </form>
+</div>
+
+<script src="/js/generateInvoice.js"></script>

@@ -1,0 +1,60 @@
+<div class="d-flex flex-column min-vh-100 bg-light">
+    <div class="row  flex-fill m-0" style="background-image: url('/images/background.jpg'); background-size: cover;">
+        <div class="col p-5"  >
+            <div style="margin-top: 4em;">
+                <h2>Datamundi DFP</h2>
+                <p>Welcome to the freelancer panel at Datamundi</p>
+            </div>
+        </div>
+        <div class="col  p-5">
+            <form action="/login" method="post" id="loginForm" style="margin-top: calc(100px + 4em);">
+                <h2>Login to DFP</h2>
+                {{#each errors as |error|}}
+                    <div class="alert alert-danger alert-dismissible fade show">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        {{error}}
+                    </div>
+                {{/each}}
+                {{#each successes as |success|}}
+                    <div class="alert alert-success alert-dismissible fade show">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        {{success}}
+                    </div>
+                {{/each}}
+                {{#each warnings as |warning|}}
+                    <div class="alert alert-warning alert-dismissible fade show">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        {{warning}}
+                    </div>
+                {{/each}}
+                <div class="form-group">
+                    <label for="email">Email address: </label>
+                    <input class="form-control" id="email" type="email" value="{{inputs.email}}" name="email" placeholder="Email address" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password: </label>
+                    <input class="form-control" type="password" id="password" name="password" required placeholder="Password">
+                </div>
+                <div class="form-group d-none" id="verificationCodeDiv">
+                    <label for="verificationCode">Verification code: </label>
+                    <input class="form-control" type="text" id="verificationCode" name="verificationCode" placeholder="Verification code">
+                </div>
+                <a href="/forgot">Forgot Password?</a>
+                <div class="mt-2">
+                    <button type="submit" class="btn btn-primary w-100" id="loginButton">Sign in</button>
+                </div>
+                <input type="hidden" name="width" id="width">
+                <input type="hidden" name="height" id="height">
+            </form>
+            If you don't have an account yet, register <a href="/register">here</a>.
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("width").value = window.screen.width;
+    document.getElementById("height").value = window.screen.height;
+</script>
+
+<script src="/js/checkForVerificationCode.js"></script>
+<script src="/js/checkResolution.js"></script>

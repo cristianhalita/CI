@@ -1,0 +1,72 @@
+<nav class="navbar navbar-expand-lg navbar-dark justify-content-between bg-primary">
+    <a class="navbar-brand" href="#">Datamundi Job Portal</a>
+
+    <div>
+        <div class="row">
+            <form class="form-inline my-2 my-lg-0" action="/logout" method="post">
+                <label style="margin-right: 1em">{{firstName}} {{lastName}}</label>
+                <div class="bg-light" style="padding: 0.25em; border-radius: 8px;">
+                    <button type="submit" class="form-control btn btn-outline-danger">Logout</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-2">
+    <h2 class="text-center">Why should you always carefully read our job instructions?</h2>
+    {{#each errors as |error|}}
+        <div class="alert alert-danger alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{error}}
+        </div>
+    {{/each}}
+
+    {{#each warnings as |warning|}}
+        <div class="alert alert-warning alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{warning}}
+        </div>
+    {{/each}}
+
+    {{#each successes as |success|}}
+        <div class="alert alert-success alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{success}}
+        </div>
+    {{/each}}
+
+    <p>We will show this page to you only once. But we feel you need to understand the context of your work for our customers.</p>
+    <p>Please count the apples in this picture. How many apples are in this picture?</p>
+
+    <img src="/images/apples.png" width="100%" />
+
+    <p>If our evaluators do not carefully read the instructions, some will answer 3, some will count 4 and some will count 5. Only one of those possibly correct answers will be correct. </p>
+    <p>We are sending the same job to several evaluators. If everybody reports the same count, our customer will accept this is true. But if our evaluators have not read the instructions carefully, understand every detail of it and take their time to apply the rules on the test subject, they can <u>all</u> be wrong. Our customer will end up with a wrong ground truth. As we are building test sets for machines, machines will learn to miscount, following the human example. The impact cannot be underestimated as you never know where this artificial knowledge will be used. Count pedestrians crossing a street…?</p>
+    <p>Our instructions may be like this: “Count every apple that is not eaten from. You can count as a full apple all apples that are cut in half if the calyx (stamen, sepal, blossom) OR the peduncle (stem, stalk) of an apple is fully visible. If an apple is behind another apple and therefore it is not fully visible, please count it as a full apple when the calyx OR the peduncle is fully visible. If one of them is only partially visible because of the picture cropping or because it is partially behind another apple, do not count it as an apple. A part of an apple that is less than half should never be counted even if the calyx OR the peduncle would be fully visible.”</p>
+
+    <div class="text-center my-2">
+        <img src="/images/apples2.png" alt="" height="500" />
+    </div>
+
+
+    <p>If everybody understands the rules, everybody will count the same number of apples in a complex picture like this. Of course, to understand the instructions you need to know some terms used: calyx, peduncle, picture cropping. If you do not know these terms while we assume you do know them, ask us what they mean. It will help us to improve our instructions. </p>
+    <p>Our role at Datamundi is to translate the complex rules created by scientists into actionable instructions for evaluators, preserving the scientific accuracy they need, the level of
+        <a id="link" href="https://en.wikipedia.org/wiki/Precision_and_recall" target="_blank">precision and recall</a> they expect from us. We often reduce 10 pages to 3 pages. But every word on those 3 pages matters. We also try to create tools that will help you reply, count, label, tag… correctly. But those tools will not work if you do not understand ALL the instructions in DETAIL. </p>
+    <p>We are being paid for the accurate knowledge we deliver. We are NOT paid for your count. </p>
+    <p>We keep on adding evaluators to our jobs until we have sufficient agreement. The more evaluators we need, the less every evaluator would be paid per evaluation. But as everybody likes to know the value of a job before starting it, we set the number of evaluators so you can work at a fixed rate. But if there is too much disagreement between the evaluators, we must redo the job. The full job done by all evaluators will be lost for us. You will be paid, but we will not.</p>
+    <p>Therefore, and for no other reason, we measure how much time you spend on reading instructions, and on our jobs. We compare this time between the evaluators, and we review the work of the outliers. We also analyze the spikes in the data. </p>
+    <p>Once we understand someone has not read or understood the instructions, we must exclude that person from working for us because not doing so would lower the job rates for everybody, and it endangers the trust our customers have in our knowledge.</p>
+    <p>Accepting a job without having understood the instructions is a reason for us to no longer send work to you.</p>
+    <p>We hope you understand and agree to this, and act accordingly.</p>
+
+    <form action="/readingSpeed" id="form" method="post">
+        <input type="hidden" id="timeSpend" name="timeSpend"/>
+        <input type="hidden" id="linkClicked" name="linkClicked" />
+        <div class="text-center">
+            <button type="button" class="btn btn-success" id="submitButton">OK, I understand</button>
+        </div>
+    </form>
+</div>
+
+<script src="/js/readingSpeedTest.js"></script>

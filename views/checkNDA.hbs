@@ -1,0 +1,55 @@
+<nav class="navbar navbar-expand-lg navbar-dark justify-content-between bg-primary">
+    <a class="navbar-brand" href="#">Datamundi Job Portal</a>
+
+    <div>
+        <div class="row">
+            <form class="form-inline my-2 my-lg-0" action="/logout" method="post">
+                <label style="margin-right: 1em">{{firstName}} {{lastName}}</label>
+                <div class="bg-light" style="padding: 0.25em; border-radius: 8px;">
+                    <button type="submit" class="form-control btn btn-outline-danger">Logout</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-2">
+    <h2 class="text-center">N.D.A.</h2>
+     {{#each errors as |error|}}
+        <div class="alert alert-danger alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{error}}
+        </div>
+    {{/each}}
+
+    {{#each warnings as |warning|}}
+        <div class="alert alert-warning alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{warning}}
+        </div>
+    {{/each}}
+
+    {{#each successes as |success|}}
+        <div class="alert alert-success alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{success}}
+        </div>
+    {{/each}}
+
+    <div class="border pt-3 pl-5 pr-5 pb-3 shadow-lg bg-light">
+        <h4 class="text-center">Agreement</h4>
+        <form action="/agreeToNDA" method="post">
+            {{#each NDA}}
+                <div class="form-group">
+                    <label><input type="checkbox" name="NDA" value="{{this.id}}" required> {{this.NDA}}</label>
+                </div>
+            {{/each}}
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-success">Agree</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+

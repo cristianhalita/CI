@@ -1,0 +1,298 @@
+<nav class="navbar navbar-expand-lg navbar-dark justify-content-between bg-primary">
+    <a class="navbar-brand" href="#">Datamundi Job Portal</a>
+
+    <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">My profile</a>
+            <div class="dropdown-menu">
+                {{#unless freelancer.lspId}}
+                    <a class="dropdown-item" href="/profile/personal">Personal</a>
+                    <a class="dropdown-item" href="/profile/professional">Professional</a>
+                    <a class="dropdown-item" href="/profile/payment">Payment</a>
+                {{/unless}}
+                <a class="dropdown-item" href="/profile/settings">Settings</a>
+                <a class="dropdown-item" href="/profile/nda">N.D.A.</a>
+                {{#unless freelancer.lspId}}
+                    <a class="dropdown-item" href="/profile/delete">Delete this account</a>
+                {{/unless}}
+                <a class="dropdown-item" href="/profile/datamundiStaffChat">Datamundi Staff Chat</a>
+                <a class="dropdown-item" href="/profile/help">Help</a>
+            </div>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">My jobs</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/jobs/available">Available</a>
+                <a class="dropdown-item" href="/jobs/inProgress">In progress</a>
+                <a class="dropdown-item" href="/jobs/delivered">Delivered</a>
+
+                <a class="dropdown-item" href="/jobs/help">Help</a>
+            </div>
+        </li>
+
+        {{#unless freelancer.lspId}}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">My invoices</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/invoices/paid">Paid</a>
+                    <a class="dropdown-item" href="/invoices/notPaid">Not paid</a>
+                    <a href="/invoices/overview" class="dropdown-item ">Overview</a>
+                    <a class="dropdown-item" href="/invoices/help">Help</a>
+                </div>
+            </li>
+        {{/unless}}
+
+    </ul>
+
+
+    <div>
+        <div class="row">
+            <form class="form-inline my-2 my-lg-0 col" action="/profile" method="get">
+                <button  type="submit" class="btn btn-primary float-right">
+                    Notifications <span id="unRead" class="badge badge-light">{{unread}}</span>
+                </button>
+            </form>
+
+            <form class="form-inline my-2 my-lg-0" action="/logout" method="post">
+                <label style="margin-right: 1em">{{freelancer.firstName}} {{freelancer.lastName}}</label>
+                <div class="bg-light" style="padding: 0.25em; border-radius: 8px;">
+                    <button type="submit" class="form-control btn btn-outline-danger">Logout</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid mt-3">
+
+     {{#each errors as |error|}}
+        <div class="alert alert-danger alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{error}}
+        </div>
+    {{/each}}
+
+    {{#each warnings as |warning|}}
+        <div class="alert alert-warning alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{warning}}
+        </div>
+    {{/each}}
+
+    {{#each successes as |success|}}
+        <div class="alert alert-success alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{{success}}}
+        </div>
+    {{/each}}
+
+
+    <div class="row">
+        <div class="col bg-info mr-1 pt-3 pl-3 pr-3 pb-2 ml-1 rounded shadow">
+            <h4>Messages</h4>
+
+            {{#if unReadMessages}}
+                <div class="ml-3">
+                    {{#each unReadMessages as |message|}}
+                        <div class="d-flex align-items-center mb-2">
+                            <input class="mr-1" type="checkbox" autocomplete="off" onchange="messageListener(this, {{message.id}}, '{{message.stamp}}', '{{message.encodedMessage}}')">
+                            <label class="m-0 "><b>{{message.stamp}}</b>: {{message.message}}</label>
+                        </div>
+                    {{/each}}
+                </div>
+
+                <p id="noNewMessage" class="d-none">There are no new messages at the moment.</p>
+            {{else}}
+                <p id="noNewMessage">There are no new messages at the moment.</p>
+            {{/if}}
+
+            <div>
+                <a class="btn btn-sm p-1 border border-secondary" style="background-color: rgb(255, 193, 7)" href="#collapseReadMessage" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseReadMessage">Archived messages</a>
+                <div id="collapseReadMessage" class="collapse mt-2">
+                    <div id="readMessagesDiv" class="ml-3 card card-body bg-info">
+                        {{#if readMessages}}
+                            {{#each readMessages as |message|}}
+                                <p><b>{{message.stamp}}</b>: {{message.message}}</p>
+                            {{/each}}
+                            <p id="noArchivedMessage" class="d-none">You have no archived messages.</p>
+                        {{else}}
+                            <p id="noArchivedMessage">You have no archived messages.</p>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col bg-warning ml-1 pt-3 pl-3 pr-3 pb-2 mr-1 rounded shadow">
+            <h4>Warnings</h4>
+            {{#if unReadWarnings}}
+                <div class="ml-3">
+                    {{#each unReadWarnings as |message|}}
+                    <div class="d-flex align-items-center mb-2">
+                        <input class="mr-1" type="checkbox" autocomplete="off" onchange="warningListener(this, {{message.id}}, '{{message.stamp}}','{{message.encodedMessage}}')">
+                        <label class="m-0"><b>{{message.stamp}}</b>: {{message.message}}</label>
+                    </div>
+                    {{/each}}
+                </div>
+
+                <p id="noNewWarning" class="d-none">There are no new warnings at the moment.</p>
+            {{else}}
+                <p id="noNewWarning">There are no new warnings at the moment.</p>
+            {{/if}}
+
+            <div>
+                <a class="btn btn-sm p-1 border border-secondary" style="background-color: rgb(23, 162, 184)" href="#collapseReadWarning" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseReadWarning">Archived warnings</a>
+                <div id="collapseReadWarning" class="collapse mt-2">
+                    <div id="readWarningsDiv" class="ml-3 card card-body bg-warning">
+                        {{#if readWarnings}}
+                            {{#each readWarnings as |message|}}
+                                <p><b>{{message.stamp}}</b>: {{message.message}}</p>
+                            {{/each}}
+                            <p id="noArchivedWarning" class="d-none">You have no archived warnings.</p>
+                        {{else}}
+                            <p id="noArchivedWarning">You have no archived warnings.</p>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col shadow rounded mt-1 mr-1 pt-3 pl-3 pr-3 pb-2 bg-light">
+            {{#if jobsInProgress}}
+                <table class="table table-hover table-striped">
+                    <caption>Jobs in progress</caption>
+                    <thead class="thead thead-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Job code</th>
+                        <th>Work type</th>
+                        <th>Price</th>
+                        <th>Progress</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each jobsInProgress as |job|}}
+                        <tr>
+                            <td><a href="/jobs/{{job.id}}">{{job.id}}</a></td>
+                            <td>{{job.name}}</td>
+                            <td>{{job.workType}}</td>
+                            <td>
+                                {{#if job.price}}
+
+                                    {{#if job.collective}}
+                                        To be calculated when the job is done, based on the number of units performed
+                                    {{else}}
+                                        {{job.price}}
+                                    {{/if}}
+                                {{else}}
+                                    To be calculated when the job is done, based on the number of units performed
+                                {{/if}}
+                            </td>
+                            <td>{{job.progress}}</td>
+                            <td>
+                                {{#if job.jobLink}}
+                                    <a href="{{job.jobLink}}" target="_blank">Continue</a>
+                                {{else}}
+                                    <form class="d-inline" target="_blank" action="{{job.url}}" method="post">
+                                        <input type="email" name="email" value="{{../freelancer.email}}" hidden>
+                                        <input type="password" name="pin" value="{{../freelancer.pin}}" hidden>
+                                        <input type="text" name="jobCode" value="{{job.name}}" hidden>
+                                        <button type="submit" class="btn btn-success btn-sm ">Continue</button>
+                                    </form>
+                                {{/if}}
+                                <form class="d-inline" action="/jobs/{{job.id}}/deliver" method="post">
+                                    <input type="hidden" name="origin" value="/profile" required>
+                                    <button type="submit" class="btn btn-sm btn-warning">Deliver</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+            {{else}}
+                <p>You have no jobs in progress.</p>
+            {{/if}}
+
+        </div>
+        <div class="col shadow rounded mt-1 mr-1 pt-3 pl-3 pr-3 pb-2 bg-light">
+            {{#if jobsDelivered}}
+                <table class="table table-hover table-striped">
+                    <caption>Delivered jobs</caption>
+                    <thead class="thead thead-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Work type</th>
+                        <th>Price</th>
+                        <th>Delivery date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each jobsDelivered as |job|}}
+                        <tr>
+                            <td><a href="/jobs/{{job.id}}">{{job.id}}</a></td>
+                            <td>{{job.name}}</td>
+                            <td>{{job.workType}}</td>
+                            <td>{{job.price}}</td>
+                            <td>{{job.deliveryDate}}</td>
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+            {{else}}
+                <p>You have no delivered jobs.</p>
+            {{/if}}
+        </div>
+    </div>
+
+    {{#unless freelancer.lspId}}
+        <div class="row">
+            <div class="col mt-2 shadow rounded  pt-3 pl-3 pr-3 pb-2 bg-light">
+                {{#if invoices}}
+                    <table class="table table-hover table-striped">
+                        <caption>Invoices</caption>
+                        <thead class="thead thead-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Invoice type</th>
+                            <th>Note/Invoice number</th>
+                            <th>VAT</th>
+                            <th>Price</th>
+                            <th>Creation date</th>
+                            <th>Description</th>
+                            <th>Payment date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#each invoices as |invoice|}}
+                            <tr>
+                                <td><a href="/invoices/{{invoice.id}}">#</a></td>
+                                <td>{{invoice.invoiceType}}</td>
+                                <td>{{invoice.noteNumber}}</td>
+                                <td>{{invoice.vat}}</td>
+                                <td>{{invoice.value}}</td>
+                                <td>{{invoice.stamp}}</td>
+                                <td>{{invoice.comment}}</td>
+                                <td>{{#if invoice.paymentDate}}
+                                    {{invoice.paymentDate}}
+                                {{else}}
+                                    /
+                                {{/if}}</td>
+                            </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+                {{else}}
+                    <p>You have no invoices.</p>
+                {{/if}}
+            </div>
+        </div>
+    {{/unless}}
+
+</div>
+
+<script src="/js/profile.js"></script>

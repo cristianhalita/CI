@@ -1,0 +1,41 @@
+<html lang="en">
+<head>
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex,nofollow" />
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!--    <script src="/js/checkResolution.js"></script>-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
+    <style>
+        .lol {
+            margin: 1em;
+            border: 1px solid black;
+            border-radius: 15px;
+        }
+
+        .errors {
+            color: red;
+        }
+        .successes {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+{{>noscript}}
+{{{body}}}
+{{>footer}}
+
+<script src="/js/chat-notifications.js">
+
+</script>
+</body>
+</html>

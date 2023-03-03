@@ -1,0 +1,10 @@
+<div>
+    <h1>We are using the following open source components, and we gratefully give credit to the developers that created these tools and libraries.</h1>
+    {{#each packages}}
+        <div class="p-1 mb-3 border">
+            <h5>{{this.name}}</h5>
+            <p class="m-0">Repository: {{this.repository}}</p>
+            <p class="m-0">Copyright: {{this.copyright}}</p>
+        </div>
+    {{/each}}
+</div>

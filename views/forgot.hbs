@@ -1,0 +1,45 @@
+<div class="d-flex flex-column min-vh-100 bg-light">
+    <div class="row  flex-fill m-0" style="background-image: url('/images/background.jpg'); background-size: cover;">
+        <div class="col p-5"  >
+            <div style="margin-top: 4em;">
+                <h2>Datamundi DFP</h2>
+                <p>Welcome to the freelancer panel at Datamundi</p>
+            </div>
+        </div>
+        <div class="col  p-5">
+            <form action="/forgot" method="post" style="margin-top: calc(100px + 4em);">
+                <h2>Forgot your Password?</h2>
+                {{#each errors as |error|}}
+                    <div class="alert alert-danger alert-dismissible fade show">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        {{error}}
+                    </div>
+                {{/each}}
+                {{#each successes as |success|}}
+                    <div class="alert alert-success alert-dismissible fade show">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        {{success}}
+                    </div>
+                {{/each}}
+                {{#each warnings as |warning|}}
+                    <div class="alert alert-warning alert-dismissible fade show">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        {{warning}}
+                    </div>
+                {{/each}}
+
+                <div class="form-group">
+                    <label for="forgotEmail">To reset your password, enter your email address and click the button:</label>
+                    <input id="forgotEmail" class="form-control" value="{{inputs.email}}" placeholder="Email address" type="email" name="email" required>
+                </div>
+                <a href="/login">Login</a>
+
+                <div class="mt-2">
+                    <button type="submit" class="btn btn-primary w-100">I forgot my password</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+

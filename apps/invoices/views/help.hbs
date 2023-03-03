@@ -1,0 +1,127 @@
+<nav class="navbar navbar-expand-lg navbar-dark justify-content-between bg-primary">
+    <a class="navbar-brand" href="#">Datamundi Job Portal</a>
+
+    <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">My profile</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/profile/personal">Personal</a>
+                <a class="dropdown-item" href="/profile/professional">Professional</a>
+                <a class="dropdown-item" href="/profile/payment">Payment</a>
+                <a class="dropdown-item" href="/profile/settings">Settings</a>
+                <a class="dropdown-item" href="/profile/nda">N.D.A.</a>
+                <a class="dropdown-item" href="/profile/delete">Delete this account</a>
+                <a class="dropdown-item" href="/profile/datamundiStaffChat">Datamundi Staff Chat</a>
+                <a class="dropdown-item" href="/profile/help">Help</a>
+            </div>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">My jobs</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/jobs/available">Available</a>
+                <a class="dropdown-item" href="/jobs/inProgress">In progress</a>
+                <a class="dropdown-item" href="/jobs/delivered">Delivered</a>
+                <a class="dropdown-item" href="/jobs/help">Help</a>
+            </div>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">My invoices</a>
+            <div class="dropdown-menu">
+                  <a class="dropdown-item" href="/invoices/paid">Paid</a>
+  <a class="dropdown-item" href="/invoices/notPaid">Not paid</a>
+   <a href="/invoices/overview" class="dropdown-item ">Overview</a>
+                <a class="dropdown-item active" href="/invoices/help">Help</a>
+            </div>
+        </li>
+    </ul>
+
+    <div>
+        <div class="row">
+            <form class="form-inline my-2 my-lg-0 col" action="/profile" method="get">
+                <button  type="submit" class="btn btn-primary float-right">
+                    Notifications <span id="unRead" class="badge badge-light">{{unread}}</span>
+                </button>
+            </form>
+
+            <form class="form-inline my-2 my-lg-0" action="/logout" method="post">
+                <label style="margin-right: 1em">{{firstName}} {{lastName}}</label>
+                <div class="bg-light" style="padding: 0.25em; border-radius: 8px;">
+                    <button type="submit" class="form-control btn btn-outline-danger">Logout</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <h1>Help -- About Invoices & payments</h1>
+    <p>HELP! Do I need to read all this? Yes, that would be a smart thing to do. </p>
+    <p>
+        <a href="#invoicing">Workorder & Invoice</a> --
+        <a href="#pay">Payments</a>
+    </p>
+
+    <h2 id="invoicing">Workorder & Invoice</h2>
+
+    <h3>Could you send me an official work order?</h3>
+    <p>If, on our portal, a job is assigned to you OR when you take a job and assign it to yourself, this acts as our work order to you.</p>
+    <p>When you deliver a job, it will become billable after a week. We use this time for review, and we might need to ask you to re-check your work partially or entirely.</p>
+
+    <h3>How do I get paid?</h3>
+    <p>We don’t pay for jobs, we pay invoices. So if you want to get paid, put the delivered jobs on an invoice/note. Go to: My jobs > Delivered.</p>
+    <p>All the jobs you delivered and that were not invoiced before, will be shown here. By pressing the "Generate invoice/note" button, you put them all on the invoice.</p>
+    <p>NOTE: Jobs delivered less than 7 days before will be crossed out (with a line through the job name), which means that they cannot be invoiced yet. Jobs become billable a week after the delivery date or after re-delivery in case review was required.</p>
+    <p>We try to pay immediately. Depending on the payment method you selected in your payment profile, this can take a minute (PayPal) or up to two weeks (international bank account payment over SWIFT).</p>
+    <p>When the payment is made by us, you will be notified automatically via email.</p>
+
+    <h3>Should I generate a NOTE or an INVOICE?</h3>
+    <p>Generate an "Invoice" if you have a company that is registered locally. </p>
+    <p>If you are a freelancer working without your own company, select "Note". </p>
+    <p>Our accountant will generate a Personal Income Declaration form next year for all the Notes we received this year.</p>
+
+    <h3>Are there any invoice restrictions?</h3>
+    <p>You can only send an invoice or note when:</p>
+    <ul>
+        <li>Our last payment is 1 month old. Even when you don't have 500 EUR of jobs done, a month after our last payment, you can always send an invoice.</li>
+        <li>You have more than 500 EUR of jobs done, even when your last payment is not yet 1 month old.</li>
+    </ul>
+    <p>Only the first invoice you can create at any time, even if it is not 500 EUR. This allows us to pay people who take tests or who only do one job.</p>
+    <p>We appreciate if you put many jobs on one invoice or note. </p>
+
+    <h3>Should I add VAT?</h3>
+    <p>In most cases, you don't need to add VAT, even if you have a VAT number yourself. Only if you live in Belgium, you'll need to add it. In case of doubt, ask your accountant or ask us before you generate the invoice.</p>
+
+    <h3>Can I send you an invoice from my own invoicing tool?</h3>
+    <p>No. We only pay invoices generated on the Job Portal. </p>
+    <p>If you have your own invoicing tool, you should use both tools, yours and ours, side by side:</p><ul>
+    <li>Use your tool to generate the invoice number; </li>
+    <li>Use ours to see how much the total will be. </li>
+    <li>Put that total in your own tool. </li>
+    <li>Put the number generated by your tool in our invoicing form (in "Your note number" or "Your invoice number"). </li>
+    <li>Then generate the invoice on our Job Portal. The invoice is generated on our server and the confirmation of receipt is shown on the generated invoice. If this number is there, it is proof that we received your invoice.</li>
+    <li>Feel free to print your own invoice for your own administration, but don't send it to us. We only process invoices generated on the Job Portal.</li>
+</ul>
+
+
+
+    <h2 id="pay">Payments</h2>
+
+    <h3>When will I be paid?</h3>
+    <p>We pay you within 2 weeks after you generate your invoice on the Job Portal. When we pay via PayPal, the money is on your account within seconds after we execute the payment. When we transfer money to your bank account, it can take up to a week before the money is on your account as there may be intermediate banks holding the money. Nothing we can do about that. We do our payments per batch in weekends (or on Fridays).</p>
+
+    <h3>What are the payments fees?</h3>
+    <p>We pay what is on the invoice. </p>
+    <p>PayPal takes a fee and applies its own currency conversion rates. Please check their website about this. There is nothing we can do about this; as we're a company, we cannot pay "to family and friends" and we can't pay the fee ourselves. We can't even know what is the fee or the conversion rate PayPal will use.</p>
+    <p>For bank Bankwire (SEPA & SWIFT)s, we use IBAN/SWIFT and share costs as they can sometimes be very high. If we use TransferWise (that may not be available where you live), the cost is very low, but it is always paid by the receiver. This is how TransferWise works.</p>
+    <p>We pay in EURO. If your bank account or PayPal account is in another currency, it will be converted automatically to your currency (unless you have setup your account in such a way this shouldn't happen).</p>
+
+
+    <h2>What payment option to select? </h2>
+
+    <p>For fast payments and small amounts (up to 700€), PayPal is best. BankBankwire (SEPA & SWIFT) is best for larger amounts,
+        if we can use IBAN, SEPA or TransferWise. If not, check if we can pay you via <a href="https://www.xoom.com/xoom-locations" target="_blank">XOOM</a>.</p>
+
+    <img src="/images/2020.Payment.Options.PNG" alt="Payment diagram" class="img-fluid">
+</div>

@@ -1,0 +1,138 @@
+<nav class="navbar navbar-expand-lg navbar-dark justify-content-between bg-primary">
+    <a class="navbar-brand" href="#">Datamundi Job Portal</a>
+
+    <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">My profile</a>
+            <div class="dropdown-menu">
+                {{#unless freelancer.lspId}}
+                    <a class="dropdown-item" href="/profile/personal">Personal</a>
+                    <a class="dropdown-item" href="/profile/professional">Professional</a>
+                    <a class="dropdown-item" href="/profile/payment">Payment</a>
+                {{/unless}}
+                <a class="dropdown-item" href="/profile/settings">Settings</a>
+                <a class="dropdown-item" href="/profile/nda">N.D.A.</a>
+
+                {{#unless freelancer.lspId}}
+                    <a class="dropdown-item" href="/profile/delete">Delete this account</a>
+                {{/unless}}
+                <a class="dropdown-item" href="/profile/datamundiStaffChat">Datamundi Staff Chat</a>
+                <a class="dropdown-item active" href="/profile/help">Help</a>
+            </div>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">My jobs</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/jobs/available">Available</a>
+                <a class="dropdown-item" href="/jobs/inProgress">In progress</a>
+                <a class="dropdown-item" href="/jobs/delivered">Delivered</a>
+                <a class="dropdown-item" href="/jobs/help">Help</a>
+            </div>
+        </li>
+
+        {{#unless freelancer.lspId}}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">My invoices</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/invoices/paid">Paid</a>
+                    <a class="dropdown-item" href="/invoices/notPaid">Not paid</a>
+                    <a href="/invoices/overview" class="dropdown-item ">Overview</a>
+                    <a class="dropdown-item" href="/invoices/help">Help</a>
+                </div>
+            </li>
+        {{/unless}}
+    </ul>
+
+    <div>
+        <div class="row">
+            <form class="form-inline my-2 my-lg-0 col" action="/profile" method="get">
+                <button  type="submit" class="btn btn-primary float-right">
+                    Notifications <span id="unRead" class="badge badge-light">{{unread}}</span>
+                </button>
+            </form>
+
+            <form class="form-inline my-2 my-lg-0" action="/logout" method="post">
+                <label style="margin-right: 1em">{{firstName}} {{lastName}}</label>
+                <div class="bg-light" style="padding: 0.25em; border-radius: 8px;">
+                    <button type="submit" class="form-control btn btn-outline-danger">Logout</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <h1>Help – About your profile</h1>
+    <p>HELP! Do I need to read all this? Yes, that would be a smart thing to do. </p>
+    <p>
+        <a href="#jobportal">The Datamundi Job Portal</a> --
+        <a href="#helptopics">Questions answered in the help</a> --
+        <a href="#Profile">My profile</a> --
+        <a href="#whatWeDo">What we do as Datamundi</a>
+    </p>
+
+    <h2 id="jobportal">On this Job Portal ...</h2>
+    <ul>
+        <li>... you can create a professional profile so we understand what kind of NLP jobs we can trust you with; To get an idea about what jobs these are, check "Our Work Types" in the My Jobs Help.</li>
+        <li>you can read instructions about the NLP job you're invited to take, see the actual dataset you will work on, see the job value and the due date, and take an available job if you are qualified for it; The individual jobs come with a fixed value; the value of the collective jobs is calculated when the job is complete and we can count how much work you did.</li>
+        <li>you can deliver the job when you're done; </li>
+        <li>you can generate an invoice for the jobs you delivered; </li>
+        <li>you can see your invoices and payments;</li>
+    </ul>
+    <p>We developed this job portal for NLP jobs ourselves. We always appreciate your feedback, especially on bugs you find or whatever you would like us to improve. If you report bugs, please always send screen-shots, not photos. We try to fix issues we can replicate within a day.</p>
+    <p>This Job Portal and all work types have only been tested on Chrome without plug-ins. If you bump into issues, disable your plug-ins, and double check you are using Chrome.</p>
+
+    <h2 id="helptopics">On this help...</h2>
+    <p>There is an HELP item in all main menu sections. You will find answers on these questions: </p>
+    <ul>
+        <li>Why do you need all this information in my profile?</li>
+        <li>What data do you collect and what do you use it for?</li>
+        <li>How do you calculate the value of a job?</li>
+        <li>What are all these work types? </li>
+        <li>Do you QC my job?</li>
+        <li>Should I generate a NOTE or an INVOICE?</li>
+        <li>Are there any invoice restrictions?</li>
+        <li>Should I add VAT?</li>
+        <li>Can I send you an invoice from my own invoicing tool?</li>
+        <li>When will I be paid?</li>
+        <li>What are the payments fees?</li>
+    </ul>
+
+    <h2 id="Profile">Why do you need all this information in my profile?</h2>
+    <p>We need this information for many reasons.  We explain this in detail here what we collect and why we do so: </p>
+    <ul>
+        <li>Personal information: We work with indiviual freelancers, not with companies; We don't share your personal information with our customers, but we do share this with the Belgian tax authorities if they audit our payments. So your personal information has to be real and true. Your address will be checked in Google Maps. Your mail address is used to retrieve your PIN and to verify any changes you make to your profile. If this is wrong or false, you will lose access to your account. </li>
+        <li>Professional information: we work with all professions who can contribute value to our datasets. We need to know where you work, what languages you can help us with and what is your professional background.</li>
+        <li>Payment information: we only send work to people we can pay. So we need to know how we can pay you, and what kind of payment that will be: a personal payment or a payment to a company account; Typically you will generate a NOTE for a personal payment, and an INVOICE to receive a payment on a compnay account.</li>
+        <li>Non Disclosure Agreement: you can only work for us IF you agree to this correct professional behaviour. If you disagree with one of these rules, don't create an account, or delete it. Deleting an account does not discharge you of the rules you agreed to before; It will however delete your account on our servers. This cannot be undone. </li>
+    </ul>
+    <p> We comply to the European GDRP.    </p>
+    <ul>
+        <li>We don't rent or trade email lists or any other information with other organisations and businesses. </li>
+        <li>Our customers don’t know who works on their research jobs. All we share with them is a unique freelancer number. They cannot find out who’s the person matching that unique identifier.</li>
+        <li>We protect your personal data in the best way we can: all communication between you and our server is encrypted, and the very little personal information that we do store in a database, is encrypted inside the database as well. Once you start working on our jobs, we compare this information with the information stored in your local profile file. When this matches, our tools will work. When it doesn’t match, none of our tools will work.</li>
+        <li>You are entitled to view, amend, or delete the personal information that we hold. Email your request to our data protection officer: Gert Van Assche.</li>
+    </ul>
+
+    <p>At Datamundi, we are committed to maintaining the trust and confidence of our visitors to our web site. In particular, we want you to know that Datamundi is not in the business of selling, renting or trading email lists with other companies and businesses for marketing purposes. In this help, we’ve provided lots of detailed information on when and why we collect your personal information, how we use it, the limited conditions under which we may disclose it to others and how we keep it secure.<br>
+        <!--When someone visits this website we use a third party service, Google Analytics, to collect standard internet log information and details of visitor behavior patterns. We do this to find out things such as the number of visitors to the various parts of the site. This information is only processed in a way which does not identify anyone. We do not make, and do not allow Google to make, any attempt to find out the identities of those visiting our website. There are no plugins that register or process any information you share with us, no pixel magic... --></p>
+
+    <h2 id="whatWeDo">What do we do as Datamundi</h2>
+    <p>We negotiate with our customers about cost and deadlines, about data formats and job requirements.</p>
+    <p>We translate the requirements into actionable instructions. If the instructions according to our freelancers need to be changed, we discuss this with our customers.</p>
+    <p>We try to get correct estimates of the work to be done, so our freelancers get a correct and fair value for their work.</p>
+    <p>We create work types to streamline similar jobs for different customers, so our freelancers don’t need to learn how to use them for every new job.</p>
+    <p>We test our freelancers, and select the most fit ones for each job.</p>
+    <p>We build tools on this job portal to get the work done through these work types.</p>
+    <p>We convert customer data to a job format, and we consolidate the job data into data formats our customers can use.</p>
+    <p>We guide the freelancers, answer their questions as fast and accurate as we can. </p>
+    <p>We monitor the work done by our freelancers, and make sure we can meet the deadlines.</p>
+    <p>We check the work before we deliver to our customer.</p>
+    <p>We handle customer complaints before we inform the freelancers about this.</p>
+    <p>We scale our team and tools in order to handle the ever growing list of supported language pairs and work types.</p>
+    <p>We pay our freelancers the same week we receive their invoice. This is at least 6 weeks before we get paid ourselves. This way we pre-finance the project of our customers and we don’t make our freelancers wait for their reward.</p>
+    <p>We figure out the best payment options, per country; If we can, we also take care of the payment fees.</p>
+    <p>We redo the work at no extra cost if our customers are not happy with the quality we deliver.</p>
+    <p>On our <a href="https://datamundi.space/" target="_blank">homepage</a> you can read about our work types.</p>
+</div>

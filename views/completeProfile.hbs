@@ -1,0 +1,180 @@
+<nav class="navbar navbar-expand-lg justify-content-between">
+  <!--  <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">{{firstName}} {{lastName}}</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/jobs/available">Available</a>
+                <a class="dropdown-item" href="/jobs/inProgress">In progress</a>
+                <a class="dropdown-item" href="/jobs/delivered">Delivered</a>
+
+                <a class="dropdown-item" href="/help">Help</a>
+            </div>
+        </li>
+    </ul>-->
+
+    <div class="ml-auto">
+
+        <form class="form-inline my-2 my-lg-0" action="/logout" method="post">
+            <label style="margin-right: 1em">{{firstName}} {{lastName}}</label>
+            <div class="bg-light" style="padding: 0.25em; border-radius: 8px;">
+                <button type="submit" class="form-control btn btn-outline-danger">Logout</button>
+            </div>
+        </form>
+    </div>
+
+
+
+</nav>
+
+
+<div class="container">
+    <h1>Profile completion</h1>
+      {{#each errors as |error|}}
+        <div class="alert alert-danger alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{error}}
+        </div>
+    {{/each}}
+
+    {{#each warnings as |warning|}}
+        <div class="alert alert-warning alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{warning}}
+        </div>
+    {{/each}}
+
+      {{#each successes as |success|}}
+        <div class="alert alert-success alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{success}}
+        </div>
+    {{/each}}
+    <form action="/completeProfile" method="post" >
+        <div class="container lol">
+            <h2>Address</h2>
+            <div class="form-group">
+                <label for="state">State</label>
+                <input required id="state" class="form-control" type="text" name="state" placeholder="State">
+
+            </div>
+
+            <div class="form-group">
+                <label for="city">City</label>
+                <input required class="form-control" type="text" name="city" id="city" placeholder="City">
+
+            </div>
+            <div class="form-group">
+                <label for="zip">Zip / Postal Code</label>
+                <input required class="form-control"  type="text" id="zip" name="zip" placeholder="Zip / Postal Code">
+
+            </div>
+            <div class="form-group">
+                <label for="street">Street</label>
+                <input required class="form-control" type="text" id="street" name="street" placeholder="Street">
+
+            </div>
+
+            <div class="form-group">
+                <label for="house">House number</label>
+                <input required class="form-control" type="number" name="house" id="house" placeholder="House number">
+
+            </div>
+        </div>
+
+        <div class="container lol">
+            <h2>Contact</h2>
+
+            <div class="form-group">
+                <label for="phone">Mobile / house phone number</label>
+                <input required class="form-control" id="phone" type="text" name="phone" placeholder="Mobile / house phone number">
+            </div>
+            <div class="form-group">
+                <label for="skype">Skype</label>
+                <input required class="form-control" type="text" id="skype" name="skype" placeholder="Skype">
+            </div>
+        </div>
+
+        <div class="container lol">
+            <div class="form-group">
+                <label for="companyPersonal">My invoices/notes are:</label>
+                <select onchange="companyPersonalListener(this)" name="companyPersonal" id="companyPersonal"  class="form-control" required>
+                    <option value="">Select an option</option>
+                    <option value="personal">Personal</option>
+                    <option value="company">Company</option>
+                </select>
+            </div>
+
+            <div id="companyDiv" class="d-none">
+                <div class="form-group">
+                    <label for="companyName">Company name:</label>
+                    <input type="text" id="companyName" name="companyName" class="form-control" placeholder="Company name">
+                </div>
+                <div class="form-group">
+                    <label for="vat">VAT number:</label>
+                    <input type="text" id="vat" name="vat" class="form-control"  placeholder="VAT number">
+                </div>
+            </div>
+            </div>
+
+        <div class="container lol">
+            <h2>Payment</h2>
+
+            <div class="form-group">
+                <label for="preferredPaymentMethod">Preferred payment method: </label>
+                <select class="form-control"  id="preferredPaymentMethod" required name="preferredPaymentMethod">
+                    <option value="">Select a payment method</option>
+                    {{#each paymentMethods as |paymentMethod|}}
+                        <option value="{{paymentMethod.id}}">{{paymentMethod.name}}</option>
+                    {{/each}}
+                    <!--   <option value="paypal">Paypal</option>
+                       <option value="wireTransfer">Bankwire (SEPA & SWIFT)</option>-->
+
+                </select>
+
+            </div>
+            <div id="paypalDiv" class="container lol">
+                <h3>Paypal</h3>
+
+                <div class="form-group">
+                    <label for="paypal">Paypal email address: </label>
+                    <input type="email" name="paypal" class="form-control" id="paypal" placeholder="Paypal email">
+
+                </div>
+            </div>
+
+            <div id="bankDiv" class="container lol">
+                <h3>Bank</h3>
+
+                <div class="form-group">
+                    <label for="nameOfAccountHolder">Name of account holder: </label>
+                    <input class="form-control" id="nameOfAccountHolder" type="text" name="nameOfAccountHolder" placeholder="Name of account holder">
+
+                </div>
+
+                <div class="form-group">
+                    <label for="iban">Account number (IBAN or other): </label>
+                    <input class="form-control" id="iban" type="text" name="iban" placeholder="Account number (IBAN or other)">
+                </div>
+
+                <div class="form-group">
+                    <label for="nameOfBank">Name of bank: </label>
+                    <input class="form-control" id="nameOfBank" type="text" name="nameOfBank" placeholder="Name of bank">
+
+                </div>
+                <div class="form-group">
+                    <label for="swiftOrBic">SWIFT / BIC: </label>
+                    <input id="swiftOrBic" class="form-control" type="text" name="swiftOrBic" placeholder="SWIFT/BIC">
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Complete profile</button>
+        </div>
+
+    </form>
+</div>
+
+<script src="/js/completeProfile.js"></script>

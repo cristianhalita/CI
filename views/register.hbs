@@ -1,0 +1,235 @@
+<div class="container mt-2">
+
+    <h2 class="text-center">Register for Jobs at Datamundi</h2>
+
+
+
+    <p>If you already have an account sign in <a href="/login">here</a>.</p>
+      {{#each errors as |error|}}
+        <div class="alert alert-danger alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{error}}
+        </div>
+    {{/each}}
+
+    {{#each warnings as |warning|}}
+        <div class="alert alert-warning alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{warning}}
+        </div>
+    {{/each}}
+
+      {{#each successes as |success|}}
+        <div class="alert alert-success alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{success}}
+        </div>
+    {{/each}}
+
+
+
+    <div class="alert alert-info alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        We appreciate if you use LATIN script only when entering your registration data.
+    </div>
+    <div class="alert alert-warning alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        Please note that as of September 29 we no longer support Yahoo mail accounts due to too many issues reported to us by
+        freelancers with a Yahoo mail account. Please register with an alternative email address (gmail.com, outlook.com, etc).
+    </div>
+    <form action="/register" method="post">
+        <div class="border pt-3 pl-5 pr-5 pb-3 shadow-lg bg-light">
+            <h4 class="text-center">Basic info</h4>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="firstName">First name :</label>
+                    <input class="form-control" value="{{inputs.firstName}}" id="firstName" type="text" name="firstName" placeholder="First name" required>
+
+                </div>
+                <div class="form-group col">
+                    <label for="lastName">Last name: </label>
+                    <input class="form-control" id="lastName" value="{{inputs.lastName}}" type="text" name="lastName" placeholder="Last name" required>
+                </div>
+            </div>
+            <div class="alert alert-info fade show">
+                We will check your password has not been breached via <a target="_blank" href="https://haveibeenpwned.com/Passwords">Have I Been Pwned</a>. If it is, we will ask you to use a safe password.
+            </div>
+            <div class="form-row mb-3">
+                <div class="col">
+                    <label for="password">Password:</label>
+                    <div class="input-group">
+                        <input class="form-control" value="{{inputs.password}}" id="password" type="password" name="password" placeholder="Password" required aria-describedby="passwordHelp"/>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" id="showPasswordButton"><i class="bi bi-eye-fill"></i></button>
+                        </div>
+                        <small id="passwordHelp" class="form-text text-muted">Make sure your password contains at least 8 characters, including 1 lowercase letter, 1 uppercase letter, 1 digit and 1 special character</small>
+                    </div>
+                </div>
+                <div class="col">
+                    <label for="confirmPassword">Confirm password:</label>
+                    <div class="input-group">
+                        <input class="form-control" disabled id="confirmPassword" value="{{inputs.confirmPassword}}" type="password" name="confirmPassword" placeholder="Confirm password" required aria-describedby="confirmPasswordHelp" />
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" id="showConfirmPasswordButton"><i class="bi bi-eye-fill"></i></button>
+                        </div>
+                    </div>
+                    <small id="confirmPasswordHelp" class="form-text text-muted">Make sure your password contains at least 8 characters, including 1 lowercase letter, 1 uppercase letter, 1 digit and 1 special character</small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email address: </label>
+                <input class="form-control" id="email" value="{{inputs.email}}" type="email" name="email" placeholder="Email address" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="motherTongue">Mother tongue: </label>
+                    <select class="form-control" id="motherTongue" name="motherTongue" required>
+                        <option value="">Select mother tongue</option>
+                        {{#each languages as |language|}}
+                            {{#if language.selected}}
+                                <option value="{{language.id}}" selected>{{language.name}}</option>
+                            {{else}}
+                                <option value="{{language.id}}">{{language.name}}</option>
+                            {{/if}}
+                        {{/each}}
+                    </select>
+                </div>
+
+                <div class="form-group col">
+                    <label for="country">Country of residence: </label>
+                    <select class="form-control" id="country" name="countryOfResidence" required>
+                        <option value="">Select country</option>
+                        {{#each countries as |country|}}
+                            {{#if country.selected}}
+                                <option value="{{country.id}}" selected>{{country.name}}</option>
+                            {{else}}
+                                <option value="{{country.id}}">{{country.name}}</option>
+                            {{/if}}
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+
+            <hr />
+
+            <p>We need this information for projects where the customers require a certain annotator/speaker sex or age. If you prefer not to disclose this information, please do not fill it in.</p>
+
+            <div class="form-group">
+                <label for="yearOfBirth">Year of birth:</label>
+                <input type="number" class="form-control"  min="1940" max="2010" id="yearOfBirth" value="{{user.yearOfBirth}}" placeholder="Year of birth" name="yearOfBirth" />
+            </div>
+
+            <div class="form-group">
+                <label for="sex">Sex:</label>
+                <select name="sex" class="form-control" id="sex">
+                    <option value="">Select an option</option>
+                    <option value="M" {{#ifEquals user.sex 'M'}}selected{{/ifEquals}}>Male</option>
+                    <option value="F" {{#ifEquals user.sex 'F'}}selected{{/ifEquals}}>Female</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="languagePairs" class="border pt-3 pl-5 pr-5 pb-3 shadow-lg mt-3 bg-light">
+            <h4 class="text-center">Language pairs (minimum 1)</h4>
+            <div class="form-inline form-group">
+                <select id="languagePairSelect" class="form-control">
+                    <option value="">Select language pair</option>
+                    {{#each languagePairs as |languagePair|}}
+                        <option value="{{languagePair.id}}">{{languagePair.source}} --> {{languagePair.target}}</option>
+                    {{/each}}
+                </select>
+                <a  href="" style="margin-left: 1em" id="languagePairLink">Add to my language pair list</a>
+            </div>
+            <table class="table table-light table-hover table-bordered">
+                <caption>Language pairs</caption>
+                <thead class="thead-light">
+                <tr>
+                    <th>Language pair</th>
+                    <th>Remove</th>
+                </tr>
+                </thead>
+                <tbody id="languagePairList">
+
+                </tbody>
+            </table>
+            <input type="number" hidden id="languagePair1" value="{{user.lPair1}}" name="languagePair1">
+            <input type="number" hidden id="languagePair2" value="{{user.lPair2}}" name="languagePair2">
+            <input type="number" hidden id="languagePair3" value="{{user.lPair3}}" name="languagePair3">
+            <input type="number" hidden id="languagePair4" value="{{user.lPair4}}" name="languagePair4">
+        </div>
+
+        <div class="border pt-3 pl-5 pr-5 pb-3 shadow-lg mt-3 bg-light">
+            <h4 class="text-center">Interview</h4>
+            <div class="form-group">
+                <label for="question1">What do you think about machine translation ?</label>
+                <textarea class="form-control" id="question1" name="question1" required>{{inputs.question1}}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="question2">Please describe the work experience that would recommend you for a collaboration with Datamundi.</label>
+                <textarea class="form-control" id="question2" name="question2" required>{{inputs.question2}}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="question3">Link to your online profile.</label>
+                <textarea class="form-control" id="question3" name="onlineProfile" required>{{inputs.onlineProfile}}</textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="origin">Where did you find out about the Datamundi Job Portal?</label>
+                    <select name="origin" id="origin" class="form-control" required>
+                        <option value="">Select an option</option>
+                        {{#each origins as |origin|}}
+                            <option value="{{origin.id}}">{{origin.name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+                <div class="form-group col">
+                    <textarea name="specify" class="form-control" required placeholder="Please specify"></textarea>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="border pt-3 pl-5 pr-5 pb-3 shadow-lg mt-3 bg-light">
+            <h4 class="text-center">Agreement</h4>
+            {{#each NDA}}
+                <div class="form-group">
+                    <label><input type="checkbox" name="NDA" value="{{this.id}}" required> {{this.NDA}}</label>
+                </div>
+            {{/each}}
+           <!-- <div class="form-group">
+                <label><input type="checkbox" required> I won't copy or resell in any way data from instructions or jobs for any purpose.</label>
+            </div>
+            <div class="form-group">
+                <label><input type="checkbox" required> I won't reverse engineer, decompose Datamundi's tools or data files.</label>
+            </div><div class="form-group">
+            <label><input type="checkbox" required> I won't communicate in any way about the jobs I am doing for Datamundi or its customers.</label>
+        </div>
+            <div class="form-group">
+                <label><input type="checkbox" required>  I won't subcontract your jobs to anyone. When I pull a job,
+                    me and nobody else will do the job. I understand Datamundi will cross-reference my work, and subcontracting would simply destroy the reliability of my work.</label>
+            </div>
+            <div class="form-group">
+                <label><input type="checkbox" required> I understand that Datamundi registers the time I work on jobs in detail and I don't mind that this information will be used to organize Quality Control on my work.</label>
+            </div>
+            <div class="form-group">
+                <label><input type="checkbox" required> I understand that I am fully responsible for paying taxes, social security fees, etc, in my country on the work I do for Datamundi.</label>
+            </div>
+            <div class="form-group">
+                <label><input type="checkbox" required> I agree to be paid via bank transfer or Paypal</label>
+            </div>
+            <div class="form-group">
+                <label><input type="checkbox" required> I know I have to respect this agreement even when I no longer take Datamundi jobs.</label>
+            </div>-->
+        </div>
+        <button type="submit" hidden id="hiddenSubmitButton"></button>
+
+        <div class="text-center mt-3">
+            <button id="submitButton" type="button" class="btn btn-primary">Register</button>
+        </div>
+    </form>
+</div>
+
+<script src="/js/register.js"></script>
+<script src="/js/password-validation.js"></script>

@@ -1,0 +1,272 @@
+<nav class="navbar navbar-expand-lg navbar-dark justify-content-between bg-primary">
+    <a class="navbar-brand" href="#">Datamundi Job Portal</a>
+
+    <ul class="navbar-nav">
+        <li class="nav-item dropdown active">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">My profile</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/profile/personal">Personal</a>
+                <a class="dropdown-item" href="/profile/professional">Professional</a>
+                <a class="dropdown-item active" href="/profile/payment">Payment</a>
+                <a class="dropdown-item" href="/profile/settings">Settings</a>
+                <a class="dropdown-item" href="/profile/nda">N.D.A.</a>
+                <a class="dropdown-item" href="/profile/delete">Delete this account</a>
+                <a class="dropdown-item" href="/profile/datamundiStaffChat">Datamundi Staff Chat</a>
+                <a class="dropdown-item" href="/profile/help">Help</a>
+            </div>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">My jobs</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/jobs/available">Available</a>
+                <a class="dropdown-item" href="/jobs/inProgress">In progress</a>
+                <a class="dropdown-item" href="/jobs/delivered">Delivered</a>
+
+                <a class="dropdown-item" href="/jobs/help">Help</a>
+            </div>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">My invoices</a>
+            <div class="dropdown-menu">
+                  <a class="dropdown-item" href="/invoices/paid">Paid</a>
+  <a class="dropdown-item" href="/invoices/notPaid">Not paid</a>
+   <a href="/invoices/overview" class="dropdown-item ">Overview</a>
+                <a class="dropdown-item" href="/invoices/help">Help</a>
+            </div>
+        </li>
+    </ul>
+
+    <div>
+        <div class="row">
+            <form class="form-inline my-2 my-lg-0 col" action="/profile" method="get">
+                <button  type="submit" class="btn btn-primary float-right">
+                    Notifications <span id="unRead" class="badge badge-light">{{unread}}</span>
+                </button>
+            </form>
+
+            <form class="form-inline my-2 my-lg-0" action="/logout" method="post">
+                <label style="margin-right: 1em">{{firstName}} {{lastName}}</label>
+                <div class="bg-light" style="padding: 0.25em; border-radius: 8px;">
+                    <button type="submit" class="form-control btn btn-outline-danger">Logout</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+<div class="container mt-2">
+    <h2 class="text-center">My payment information <!--(<a href="/invoices/help">HELP</a>)--></h2>
+      {{#each errors as |error|}}
+        <div class="alert alert-danger alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{error}}
+        </div>
+    {{/each}}
+
+    {{#each warnings as |warning|}}
+        <div class="alert alert-warning alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{warning}}
+        </div>
+    {{/each}}
+
+      {{#each successes as |success|}}
+        <div class="alert alert-success alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{success}}
+        </div>
+    {{/each}}
+
+    <div class="alert alert-info alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        Find out  what payment option suits you best. Read the <a href="/invoices/help">HELP</a> and check the options <a
+            href="/images/2020.Payment.Options.PNG" target="_blank">diagram</a>.
+    </div>
+
+    <form action="/profile/payment" method="post" id="paymentForm" >
+        <div class="border pt-3 pl-5 pr-5 pb-3 shadow-lg bg-light">
+            <div class="border p-3">
+                <div class="form-group">
+                    <label for="companyPersonal">My invoices/notes are:</label>
+                    <select onchange="companyPersonalListener(this)" name="companyPersonal" id="companyPersonal"  class="form-control" required>
+                        <option value="">Select an option</option>
+
+                        {{#ifEquals 'company' user.companyPersonal}}
+                            <option value="personal">Personal</option>
+                            <option value="company" selected>Company</option>
+                        {{else}}
+                            {{#ifEquals 'personal' user.companyPersonal}}
+                                <option value="personal" selected>Personal</option>
+                                <option value="company">Company</option>
+                            {{else}}
+                                <option value="personal" >Personal</option>
+                                <option value="company" >Company</option>
+                            {{/ifEquals}}
+                        {{/ifEquals}}
+                    </select>
+                </div>
+
+                <div id="companyDiv" class="d-none">
+                    <div class="form-group">
+                        <label for="companyName">Company name:</label>
+                        <input type="text" id="companyName" name="companyName" class="form-control" value="{{user.companyName}}" placeholder="Company name">
+                    </div>
+                    <div class="form-group">
+                        <label for="vat">VAT number:</label>
+                        <input type="text" id="vat" name="vat" class="form-control" value="{{user.vat}}" placeholder="VAT number">
+                    </div>
+                </div>
+            </div>
+
+            <div class="border p-3 mt-2">
+
+            <div class="form-group">
+                <label for="preferredPaymentMethod">I prefer to be paid via:</label>
+                <select class="form-control" name="preferredPaymentMethod" id="preferredPaymentMethod" required>
+                    <option value="">Select a payment method</option>
+                    {{#each paymentMethods as |paymentMethod|}}
+                        {{#if paymentMethod.selected}}
+                            <option value="{{paymentMethod.id}}" selected>{{paymentMethod.name}}</option>
+                        {{else}}
+                            <option value="{{paymentMethod.id}}">{{paymentMethod.name}}</option>
+                        {{/if}}
+                    {{/each}}
+                </select>
+            </div>
+                <div id="paypalDiv" class="container p-2 border bg-white">
+                    <h4>Paypal</h4>
+                    <div class="form-group">
+                        <label for="paypal">Paypal email address:</label>
+                        <input class="form-control" type="email" id="paypal" name="paypal" value="{{user.paypal}}">
+                    </div>
+                </div>
+
+                <div id="bankDiv" class="container p-2 border mt-1 bg-white">
+                    <h4>Bankwire via SEPA transfer</h4>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="nameOfAccountHolder">Name of account holder: </label>
+                            <input class="form-control" id="nameOfAccountHolder" type="text" name="nameOfAccountHolder" value="{{user.nameOfAccountHolder}}"
+                                   placeholder="Name of account holder">
+                        </div>
+                        <div class="form-group col">
+                            <label for="nameOfBank">Name of bank: </label>
+                            <input class="form-control" id="nameOfBank" type="text" name="nameOfBank" value="{{user.nameOfBank}}" placeholder="Name of bank">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="iban">Account number (IBAN or other): </label>
+                            <input class="form-control" id="iban" type="text" name="iban" value="{{user.iban}}"
+                                   placeholder="Account number (IBAN or other)">
+                        </div>
+
+                        <div class="form-group col">
+                            <label for="swiftOrBic">SWIFT / BIC: </label>
+                            <input id="swiftOrBic" class="form-control" type="text" name="swiftOrBic" value="{{user.swiftOrBic}}"
+                                   placeholder="SWIFT/BIC">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="transferWiseDiv" class="container p-2 mt-1 border bg-white">
+                    <h4>WISE (previously known as TransferWise)</h4>
+                    <div class="form-group">
+                        <label for="transferWiseEmail">TransferWise email address:</label>
+                        <input class="form-control" type="email" name="transferWiseEmail" id="transferWiseEmail" value="{{user.transferWiseEmail}}" placeholder="TransferWise email address">
+                    </div>
+                </div>
+
+                <div id="xoomDiv" class="container p-2 border mt-1 bg-white">
+                    <h4>Xoom for cash payments</h4>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="xoomFirstName">First name:</label>
+                            <input type="text" id="xoomFirstName" name="xoomFirstName" class="form-control" placeholder="First name" value="{{user.xoomFirstName}}">
+                        </div>
+                        <div class="form-group col">
+                            <label for="xoomLastName">Last name:</label>
+                            <input type="text" id="xoomLastName" name="xoomLastName" class="form-control" placeholder="Last name" value="{{user.xoomLastName}}">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="xoomCountry">Country of residence:</label>
+                            <select id="xoomCountry" name="xoomCountry" class="form-control">
+                                <option value="">Select a country</option>
+                                {{#each countries as |country|}}
+                                    {{#if country.selected}}
+                                        <option value="{{country.id}}" selected>{{country.name}}</option>
+                                    {{else}}
+                                        <option value="{{country.id}}">{{country.name}}</option>
+                                    {{/if}}
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div class="form-group col">
+                            <label for="xoomState">State:</label>
+                            <input required id="xoomState" class="form-control" type="text" name="xoomState" placeholder="State" value="{{user.xoomState}}">
+                        </div>
+                    </div>
+                    <div class="form-row">
+
+                        <div class="form-group col">
+                            <label for="xoomZip">Zip / Postal Code:</label>
+                            <input required class="form-control"  type="text" id="xoomZip" name="xoomZip" placeholder="Zip / Postal Code" value="{{user.xoomZip}}">
+                        </div>
+                        <div class="form-group col">
+                            <label for="xoomCity">City:</label>
+                            <input required class="form-control" type="text" name="xoomCity" id="xoomCity" placeholder="City" value="{{user.xoomCity}}">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="xoomStreet">Street:</label>
+                            <input required class="form-control" type="text" id="xoomStreet" name="xoomStreet" placeholder="Street" value="{{user.xoomStreet}}">
+                        </div>
+
+                        <div class="form-group col">
+                            <label for="xoomHouse">House number:</label>
+                            <input required class="form-control" type="number" name="xoomHouse" id="xoomHouse" placeholder="House number" step="0" value="{{user.xoomHouse}}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="xoomTelephone">Telephone number:</label>
+                        <input class="form-control" type="text" name="xoomTelephone" id="xoomTelephone" value="{{user.xoomTelephone}}" placeholder="Telephone number your bank knows">
+                    </div>
+                </div>
+
+                <div id="huskyDiv" class="container p-2 border mt-1 bg-white {{#ifEquals country 'BRAZIL'}}{{else}}d-none{{/ifEquals}}">
+                    <h4>Husky</h4>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="huskyCpfCnpj">CPF/CNPJ:</label>
+                            <input type="text" id="huskyCpfCnpj" name="huskyCpfCnpj" class="form-control" placeholder="CPF/CNPJ" value="{{user.huskyCpfCnpj}}">
+                        </div>
+                        <div class="form-group col">
+                            <label for="huskyFullName">Full name:</label>
+                            <input type="text" id="huskyFullName" name="huskyFullName" class="form-control" placeholder="Full name" value="{{user.huskyFullName}}">
+                        </div>
+                        <div class="form-group col">
+                            <label for="huskyEmail">Email address:</label>
+                            <input type="email" id="huskyEmail" name="huskyEmail" class="form-control" placeholder="Email address" value="{{user.huskyEmail}}">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="text-center mt-2">
+                <button type="submit" class="btn btn btn-success">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script src="/js/payment.js"></script>

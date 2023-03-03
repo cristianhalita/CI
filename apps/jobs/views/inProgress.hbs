@@ -1,0 +1,159 @@
+<nav class="navbar navbar-expand-lg navbar-dark justify-content-between bg-primary">
+    <a class="navbar-brand" href="#">Datamundi Job Portal</a>
+
+    <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">My profile</a>
+            <div class="dropdown-menu">
+                {{#unless freelancer.lspId}}
+                    <a class="dropdown-item" href="/profile/personal">Personal</a>
+                    <a class="dropdown-item" href="/profile/professional">Professional</a>
+                    <a class="dropdown-item" href="/profile/payment">Payment</a>
+                {{/unless}}
+                <a class="dropdown-item" href="/profile/settings">Settings</a>
+
+                <a class="dropdown-item" href="/profile/nda">N.D.A.</a>
+
+                {{#unless freelancer.lspId}}
+                    <a class="dropdown-item" href="/profile/delete">Delete this account</a>
+                {{/unless}}
+                <a class="dropdown-item" href="/profile/datamundiStaffChat">Datamundi Staff Chat</a>
+                <a class="dropdown-item" href="/profile/help">Help</a>
+            </div>
+        </li>
+
+        <li class="nav-item dropdown active">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">My jobs</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/jobs/available">Available</a>
+                <a class="dropdown-item active" href="/jobs/inProgress">In progress</a>
+                <a class="dropdown-item" href="/jobs/delivered">Delivered</a>
+
+                <a class="dropdown-item" href="/jobs/help">Help</a>
+            </div>
+        </li>
+
+        {{#unless freelancer.lspId}}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">My invoices</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/invoices/paid">Paid</a>
+                    <a class="dropdown-item" href="/invoices/notPaid">Not paid</a>
+                    <a href="/invoices/overview" class="dropdown-item ">Overview</a>
+                    <a class="dropdown-item" href="/invoices/help">Help</a>
+                </div>
+            </li>
+        {{/unless}}
+
+    </ul>
+
+    <div>
+        <div class="row">
+            <form class="form-inline my-2 my-lg-0 col" action="/profile" method="get">
+                <button  type="submit" class="btn btn-primary float-right">
+                    Notifications <span id="unRead" class="badge badge-light">{{unread}}</span>
+                </button>
+            </form>
+
+            <form class="form-inline my-2 my-lg-0" action="/logout" method="post">
+                <label style="margin-right: 1em">{{firstName}} {{lastName}}</label>
+                <div class="bg-light" style="padding: 0.25em; border-radius: 8px;">
+                    <button type="submit" class="form-control btn btn-outline-danger">Logout</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container">
+    <h1>In progress</h1>
+
+      {{#each errors as |error|}}
+        <div class="alert alert-danger alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{error}}
+        </div>
+    {{/each}}
+
+    {{#each warnings as |warning|}}
+        <div class="alert alert-warning alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{warning}}
+        </div>
+    {{/each}}
+
+      {{#each successes as |success|}}
+        <div class="alert alert-success alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{success}}
+        </div>
+    {{/each}}
+
+    <table id="table" class="table table-hover table-striped table-dark">
+        <caption>Jobs in progress</caption>
+        <thead class="thead-dark">
+        <tr id="header">
+            <th class="numbers">#</th>
+            <th class="alphabets">Job code</th>
+            <th class="numbers">Price</th>
+            <th class="alphabets">Language pair</th>
+            <th class="dates">Due date (CET)</th>
+            <th class="alphabets">Work type</th>
+            <th>Description</th>
+            <th>Progress</th>
+            <th>Continue</th>
+            <th>Deliver</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each jobs as |job|}}
+            <tr>
+                <td><a href="/jobs/{{job.id}}">{{job.id}}</a></td>
+                <td>{{job.name}}</td>
+                <td>
+                    {{#if job.price}}
+
+                        {{#if job.collective}}
+                            To be calculated when the job is done, based on the number of units performed
+                        {{else}}
+                            {{job.price}}
+                        {{/if}}
+                    {{else}}
+                        To be calculated when the job is done, based on the number of units performed
+                    {{/if}}
+
+                </td>
+                <td>{{job.sourceLanguage}} --> {{job.targetLanguage}}</td>
+                <td>{{job.dueDate}}</td>
+                <td>{{job.workType}}</td>
+                <td>{{job.description}}</td>
+                <td>{{job.progress}}</td>
+                <td>
+                    {{#if job.jobLink}}
+                        <a href="{{job.jobLink}}" target="_blank">Continue</a>
+                    {{else}}
+                        <form class="form-inline" target="_blank" action="{{job.url}}" method="post">
+                            <input type="email" name="email" value="{{../freelancer.email}}" hidden>
+                            <input type="password" name="pin" value="{{../freelancer.pin}}" hidden>
+                            <input type="text" name="jobCode" value="{{job.name}}" hidden>
+                            <button type="submit" class="btn btn-success">Continue</button>
+                        </form>
+                    {{/if}}
+                </td>
+                <td>
+                    {{#ifEquals job.workType 'UCQ'}}
+                    {{else}}
+                        <form class="form-inline" action="/jobs/{{job.id}}/deliver" method="post">
+                            <button type="submit" class="btn btn-success">Deliver</button>
+                        </form>
+                    {{/ifEquals}}
+
+                </td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<script src="/js/sorter.js"></script>
