@@ -13,24 +13,20 @@ describe("Registration Page Test Cases", () => {
     methodsPage.visitRegistrationPage();
   });
 
-  it.only("FL-REGIS-2, Register with mandatory fields", () => {
+  it("FL-REGIS-2, Register with mandatory fields and check the verification code", () => {
     registrationPage.registrationSteps(
       input.ValidPassword,
       input.GeneratedValidEmail,
       input.UndefinedYearOfBirth,
       input.UndefinedSex
     );
-  });
-
-  it.only("FL-REGIS-3, Register and check the verification code", () => {
-    cy.visit("http://localhost:3000/login");
     cy.task(
       "queryDb",
       `SELECT email FROM datamundi.freelancers ORDER BY stamp DESC LIMIT 1`
     ).then((result) => {
       const email = result[0].email;
       cy.get(selector.Email)
-        .type(email)
+        // .type(email)
         .then(() => {
           cy.get(selector.Password).type(input.ValidPassword);
           cy.get(selector.LoginButton).click();
@@ -47,6 +43,14 @@ describe("Registration Page Test Cases", () => {
           });
         });
     });
+    cy.task(
+      "queryDb",
+      `DELETE FROM datamundi.freelancers ORDER BY stamp DESC LIMIT 1`
+    );
+  });
+
+  it.skip("FL-REGIS-3, *MERGED WITH FL-REGIS-2*", () => {
+    cy.visit("http://localhost:3000/login");
   });
 
   it("FL-REGIS-4, Checks First Name and Last Name to contain at least one non-space character", () => {
@@ -137,7 +141,7 @@ describe("Registration Page Test Cases", () => {
     cy.get(selector.LanguagePairList).should("not.be.visible");
   });
 
-  it.skip("FL-REGIS-11, Input for optional fields", () => {});
+  it.skip("FL-REGIS-11, Input for optional fields, *SAME AS FL-REGIS-2*", () => {});
 
   it("FL-REGIS-12, Invalid Value for year of birth", () => {
     registrationPage.registrationSteps(

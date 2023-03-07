@@ -18,6 +18,7 @@ function queryTestDb(query, config) {
 
 module.exports = defineConfig({
   e2e: {
+    projectId: "b4uxft",
     setupNodeEvents(on, config) {
       require("cypress-localstorage-commands/plugin")(on, config);
       return (
