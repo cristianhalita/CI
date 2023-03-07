@@ -13,5 +13,4 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v1.1.0 # use the explicit version number
         with:
-          build: nodemon -r dotenv/config server.js
-          start: node server.js
+          record: 9f870677-7267-472a-a069-bec59562e77f
