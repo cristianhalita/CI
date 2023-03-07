@@ -2,17 +2,17 @@ name: Cypress Tests
 
 on: [push]
 
+env:
+  host: 'localhost',
+  user: 'root',
+  password: 'password',
+  port: '3306',
+  database: 'datamundi',
+  decimalNumbers: true
+
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
-    services:
-      db:
-        image: mysql:5.7
-        env:
-          host: "localhost",
-          user: "root",
-          password: "password",
-          database: "datamundi",
     steps:
       - name: Checkout
         uses: actions/checkout@v3
