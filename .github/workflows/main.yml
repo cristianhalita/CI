@@ -24,3 +24,9 @@ jobs:
           record: 9f870677-7267-472a-a069-bec59562e77f
           start: npm start
           wait-on: "http://localhost:3000"
+          host: 'localhost',
+          user: 'root',
+          password: 'password',
+          port: '3306',
+          database: 'datamundi',
+          decimalNumbers: true
