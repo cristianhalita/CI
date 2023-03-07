@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cypress run",
+    "test-cy": "cypress run",
     "dev": "nodemon -r dotenv/config server.js",
     "start": "node server.js"
   },
