@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cypress run",
+    "cy-run": "cypress run --config-file=cypress.config.js",
+    "cy-open": "cypress open --config-file=cypress.config.js",
     "dev": "nodemon -r dotenv/config server.js",
     "start": "node server.js"
   },
