@@ -34,6 +34,7 @@
     "multer": "^1.4.2",
     "mysql2": "^2.3.0",
     "nodemailer": "^6.1.1",
+    "urix": "^0.1.0",
     "validator": "^13.7.0"
   }
 }
