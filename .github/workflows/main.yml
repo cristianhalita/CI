@@ -5,13 +5,6 @@ on: [push]
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
-    env:
-      DB_HOST: "localhost"
-      DB_USER: "root"
-      DB_PASSWORD: "password"
-      DB_PORT: "3306"
-      DB_DATABASE: "datamundi"
-      DB_DECIMAL_NUMBERS: true
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -23,7 +16,15 @@ jobs:
           node-version: 14
       - name: Start server
         run: npm start &
-      - name: Wait for server to start
+        with:
+          wait-on: "http://localhost:3000"
+        env:
+          host: "localhost"
+          user: "root"
+          password: "password"
+          port: "3306"
+          database: "datamundi"
+          decimalNumbers: true
         run: sleep 5
       - name: Cypress run
         uses: cypress-io/github-action@v4.1.0 # use the explicit version number
