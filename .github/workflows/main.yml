@@ -15,7 +15,8 @@ jobs:
         with:
           node-version: 14
       - name: Start server
-        run: npm run dev
+        run: npm start &
+        sleep 10
       - name: Cypress run
         uses: cypress-io/github-action@v4.1.0 # use the explicit version number
         with:
