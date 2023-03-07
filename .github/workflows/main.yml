@@ -23,7 +23,6 @@ jobs:
           port: "3306"
           database: "datamundi"
           decimalNumbers: true
-        run: sleep 5
       - name: Cypress run
         uses: cypress-io/github-action@v4.1.0 # use the explicit version number
         with:
