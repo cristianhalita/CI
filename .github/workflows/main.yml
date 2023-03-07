@@ -3,6 +3,8 @@ name: Cypress Tests using Cypress Docker Image
 on: [push]
 
 jobs:
+  start-server:
+    - name: npm start
   cypress-run:
     runs-on: ubuntu-latest
     container: cypress/browsers:node12.18.3-chrome87-ff82
