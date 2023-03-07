@@ -5,6 +5,13 @@ on: [push]
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
+    env:
+      DB_HOST: "localhost"
+      DB_USER: "root"
+      DB_PASSWORD: "password"
+      DB_PORT: "3306"
+      DB_DATABASE: "datamundi"
+      DB_DECIMAL_NUMBERS: true
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -15,14 +22,7 @@ jobs:
         with:
           node-version: 14
       - name: Start server
-        run: |
-        export DB_HOST=$(node -p "require('./config').db.host")
-          export DB_USER=$(node -p "require('./config').db.user")
-          export DB_PASSWORD=$(node -p "require('./config').db.password")
-          export DB_PORT=$(node -p "require('./config').db.port")
-          export DB_DATABASE=$(node -p "require('./config').db.database")
-          export DB_DECIMAL_NUMBERS=$(node -p "require('./config').db.decimalNumbers")
-        npm start &
+        run: npm start &
       - name: Wait for server to start
         run: sleep 5
       - name: Cypress run
