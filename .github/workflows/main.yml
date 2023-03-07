@@ -11,10 +11,10 @@ jobs:
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Setup Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v1
         with:
           node-version: 14
       - name: Cypress run
-        uses: cypress-io/github-action@v1.1.0 # use the explicit version number
+        uses: cypress-io/github-action@v2.1.0 # use the explicit version number
         with:
           record: 9f870677-7267-472a-a069-bec59562e77f
