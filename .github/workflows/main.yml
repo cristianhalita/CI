@@ -15,11 +15,7 @@ jobs:
         with:
           node-version: 14
       - name: Start server
-        run: npm start
-      - name: Wait for server to start
-        run: |
-        npx wait-on http://localhost:3000
-        sleep 10 
+        run: npm run dev
       - name: Cypress run
         uses: cypress-io/github-action@v4.1.0 # use the explicit version number
         with:
