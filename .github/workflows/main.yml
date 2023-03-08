@@ -9,6 +9,8 @@ on:
 
 on: [push]
 
+
+jobs:
 services:
       mysql-master:
         image: mysql:5.7
@@ -25,8 +27,6 @@ services:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
-
-jobs:
   cypress-run:
     runs-on: ubuntu-latest
     steps:
