@@ -1,4 +1,4 @@
-# name: Cypress Tests
+name: Cypress Tests
 
 # env:
 #   MYSQL_DATABASE: datamundi
@@ -6,7 +6,7 @@
 #   MYSQL_PASSWORD: password
 #   MYSQL_HOST: 3306
 
-# on: [push]
+on: [push]
 
 # jobs:
 #   ci:
@@ -62,7 +62,6 @@
 #           wait-on: "http://localhost:3000"
 #           record: 9f870677-7267-472a-a069-bec59562e77f
 
-version: 0.2
 phases:
   install:
     runtime-versions:
