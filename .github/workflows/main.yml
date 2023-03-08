@@ -19,6 +19,14 @@ jobs:
         MYSQL_USER: ${{ env.MYSQL_USER }}
         MYSQL_PASSWORD: ${{ env.MYSQL_PASSWORD }}
         MYSQL_ROOT_PASSWORD: ${{ env.MYSQL_PASSWORD }}
+  steps:
+    - uses: actions/checkout@v2
+    - name: Install packages
+      run: "npm ci"
+    - name: Setup Database
+      run: "npm run migrations"
+    - name: Run Tests
+      run: "npm run test"
   cypress-run:
     runs-on: ubuntu-latest
     steps:
