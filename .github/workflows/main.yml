@@ -104,14 +104,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Wait for database
-        run: npx wait-on tcp:localhost:3306 -t 30000
+        run: npx wait-on tcp:localhost:3000 -t 30000
       - name: Migrate database
         env:
           NODE_ENV: test
-          DATABASE_URL: mysql://root:root@localhost:3306/test
+          DATABASE_URL: mysql://root:root@localhost:3000/test
         run: npm run migrate
       - name: Run tests
         env:
           NODE_ENV: test
-          DATABASE_URL: mysql://root:root@localhost:3306/test
+          DATABASE_URL: mysql://root:root@localhost:3000/test
         run: npm run test
