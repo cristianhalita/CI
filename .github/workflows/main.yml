@@ -24,7 +24,7 @@ jobs:
           database: "datamundi"
           decimalNumbers: true
       - name: Cypress run
-        uses: cypress-io/github-action@v4.1.0 # use the explicit version number
+        uses: cypress-io/github-action@v5.1.0 # use the explicit version number
         with:
           start: npm run cy-run
           wait-on: "http://localhost:3000"
