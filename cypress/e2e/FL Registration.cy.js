@@ -49,10 +49,6 @@ describe("Registration Page Test Cases", () => {
     );
   });
 
-  it.skip("FL-REGIS-3, *MERGED WITH FL-REGIS-2*", () => {
-    cy.visit("http://localhost:3000/login");
-  });
-
   it("FL-REGIS-4, Checks First Name and Last Name to contain at least one non-space character", () => {
     registrationPage.registrationSteps(
       input.ValidPassword,
@@ -140,8 +136,6 @@ describe("Registration Page Test Cases", () => {
     cy.get(selector.RemoveLanguageButton).click();
     cy.get(selector.LanguagePairList).should("not.be.visible");
   });
-
-  it.skip("FL-REGIS-11, Input for optional fields, *SAME AS FL-REGIS-2*", () => {});
 
   it("FL-REGIS-12, Invalid Value for year of birth", () => {
     registrationPage.registrationSteps(
