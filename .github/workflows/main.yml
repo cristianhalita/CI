@@ -15,8 +15,7 @@ jobs:
         with:
           build: npm run build
           start: npm start
-
-/// OLD
+#/// OLD
 # name: Cypress Tests
 
 # on: [push]
