@@ -8,7 +8,22 @@ name: Cypress Tests
 
 on: [push]
 
-# jobs:
+jobs:
+phases:
+  install:
+    runtime-versions:
+      nodejs: 16
+    commands:
+      - npm install -g
+  build:
+    commands:
+      - npm
+      - npm dev
+      - npm start
+      - npm cy-run
+cache:
+  paths:
+    - "/node_modules/**/*"
 #   ci:
 #     runs-on: ubuntu-latest
 #     services:
@@ -62,18 +77,3 @@ on: [push]
 #           wait-on: "http://localhost:3000"
 #           record: 9f870677-7267-472a-a069-bec59562e77f
 
-phases:
-  install:
-    runtime-versions:
-      nodejs: 16
-    commands:
-      - npm install -g
-  build:
-    commands:
-      - npm
-      - npm dev
-      - npm start
-      - npm cy-run
-cache:
-  paths:
-    - "/node_modules/**/*"
