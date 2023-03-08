@@ -3,7 +3,7 @@ import { methodsPage } from "../support/page_object/methodsPage";
 import { registrationPage } from "../support/page_object/registrationPage";
 
 describe("Opening Registration Page", () => {
-  it("FL-REGIS-1, Opening Registration page", () => {
+  it.only("FL-REGIS-1, Opening Registration page", () => {
     methodsPage.visitRegistrationPage();
   });
 });
