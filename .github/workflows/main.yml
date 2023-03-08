@@ -16,13 +16,13 @@ jobs:
           node-version: 14
       - name: Start server
         run: npm start &
-        env:
-          host: "localhost"
-          user: "root"
-          password: "password"
-          port: "3306"
-          database: "datamundi"
-          decimalNumbers: true
+        # env:
+        #   host: "localhost"
+        #   user: "root"
+        #   password: "password"
+        #   port: "3306"
+        #   database: "datamundi"
+        #   decimalNumbers: true
       - name: Cypress run
         uses: cypress-io/github-action@v5.1.0 # use the explicit version number
         with:
